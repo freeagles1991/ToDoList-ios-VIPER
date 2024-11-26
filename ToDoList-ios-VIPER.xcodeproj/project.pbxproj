@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F52CF4CB490001C830 /* AppDelegate.swift */; };
 		328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F72CF4CB490001C830 /* SceneDelegate.swift */; };
-		328565002CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 328564FE2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld */; };
 		328565022CF4CB4A0001C830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 328565012CF4CB4A0001C830 /* Assets.xcassets */; };
 		328565052CF4CB4A0001C830 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 328565042CF4CB4A0001C830 /* Base */; };
 		328565102CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */; };
@@ -29,8 +28,14 @@
 		328565432CF4D1300001C830 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565422CF4D1300001C830 /* Fonts.swift */; };
 		328565452CF4F2A00001C830 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565442CF4F2A00001C830 /* ListCell.swift */; };
 		328565482CF5DDDC0001C830 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565472CF5DDDC0001C830 /* NetworkClient.swift */; };
-		3285654F2CF5EC080001C830 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285654E2CF5EC080001C830 /* Task.swift */; };
+		3285654F2CF5EC080001C830 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285654E2CF5EC080001C830 /* Todo.swift */; };
 		328565512CF5F4CE0001C830 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565502CF5F4CE0001C830 /* GlobalConstants.swift */; };
+		328565552CF602B40001C830 /* TodosDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 328565532CF602B40001C830 /* TodosDataModel.xcdatamodeld */; };
+		328565572CF606080001C830 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565562CF606080001C830 /* TodoStore.swift */; };
+		32D7F54D2CF6448F0026605C /* TodoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F54B2CF6448F0026605C /* TodoEntity+CoreDataClass.swift */; };
+		32D7F54E2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F54C2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift */; };
+		32D7F5512CF647530026605C /* String+toDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5502CF647530026605C /* String+toDate.swift */; };
+		32D7F5532CF64A230026605C /* Date+toString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5522CF64A230026605C /* Date+toString.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +59,6 @@
 		328564F22CF4CB490001C830 /* ToDoList-ios-VIPER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-ios-VIPER.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		328564F52CF4CB490001C830 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		328564F72CF4CB490001C830 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		328564FF2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList_ios_VIPER.xcdatamodel; sourceTree = "<group>"; };
 		328565012CF4CB4A0001C830 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		328565042CF4CB4A0001C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		328565062CF4CB4A0001C830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,8 +81,14 @@
 		328565422CF4D1300001C830 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		328565442CF4F2A00001C830 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		328565472CF5DDDC0001C830 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
-		3285654E2CF5EC080001C830 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		3285654E2CF5EC080001C830 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		328565502CF5F4CE0001C830 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		328565542CF602B40001C830 /* TasksDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TasksDataModel.xcdatamodel; sourceTree = "<group>"; };
+		328565562CF606080001C830 /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
+		32D7F54B2CF6448F0026605C /* TodoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		32D7F54C2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		32D7F5502CF647530026605C /* String+toDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+toDate.swift"; sourceTree = "<group>"; };
+		32D7F5522CF64A230026605C /* Date+toString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+toString.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +139,9 @@
 		328564F42CF4CB490001C830 /* ToDoList-ios-VIPER */ = {
 			isa = PBXGroup;
 			children = (
-				3285654D2CF5EB970001C830 /* Entities */,
+				32D7F54F2CF647350026605C /* Extensions */,
+				328565522CF6027B0001C830 /* CoreData */,
+				3285654D2CF5EB970001C830 /* Models */,
 				328565462CF5DDC30001C830 /* Network */,
 				3285653F2CF4D0EF0001C830 /* UI */,
 				3285653E2CF4D0B30001C830 /* Screens */,
@@ -138,7 +150,6 @@
 				328565012CF4CB4A0001C830 /* Assets.xcassets */,
 				328565032CF4CB4A0001C830 /* LaunchScreen.storyboard */,
 				328565062CF4CB4A0001C830 /* Info.plist */,
-				328564FE2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld */,
 				328565502CF5F4CE0001C830 /* GlobalConstants.swift */,
 			);
 			path = "ToDoList-ios-VIPER";
@@ -212,12 +223,40 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		3285654D2CF5EB970001C830 /* Entities */ = {
+		3285654D2CF5EB970001C830 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3285654E2CF5EC080001C830 /* Task.swift */,
+				3285654E2CF5EC080001C830 /* Todo.swift */,
 			);
-			path = Entities;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		328565522CF6027B0001C830 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3285655C2CF621C60001C830 /* TodoEntityClass */,
+				328565532CF602B40001C830 /* TodosDataModel.xcdatamodeld */,
+				328565562CF606080001C830 /* TodoStore.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		3285655C2CF621C60001C830 /* TodoEntityClass */ = {
+			isa = PBXGroup;
+			children = (
+				32D7F54B2CF6448F0026605C /* TodoEntity+CoreDataClass.swift */,
+				32D7F54C2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift */,
+			);
+			path = TodoEntityClass;
+			sourceTree = "<group>";
+		};
+		32D7F54F2CF647350026605C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				32D7F5502CF647530026605C /* String+toDate.swift */,
+				32D7F5522CF64A230026605C /* Date+toString.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,22 +391,27 @@
 			files = (
 				328565432CF4D1300001C830 /* Fonts.swift in Sources */,
 				328565512CF5F4CE0001C830 /* GlobalConstants.swift in Sources */,
+				328565572CF606080001C830 /* TodoStore.swift in Sources */,
+				32D7F5512CF647530026605C /* String+toDate.swift in Sources */,
 				328565322CF4CED80001C830 /* ListRouter.swift in Sources */,
+				32D7F54D2CF6448F0026605C /* TodoEntity+CoreDataClass.swift in Sources */,
+				32D7F54E2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift in Sources */,
 				328565412CF4D1060001C830 /* Colors.swift in Sources */,
-				328565002CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld in Sources */,
 				3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */,
+				32D7F5532CF64A230026605C /* Date+toString.swift in Sources */,
 				328565452CF4F2A00001C830 /* ListCell.swift in Sources */,
 				328565302CF4CDA20001C830 /* ListIterator.swift in Sources */,
 				3285652A2CF4CC130001C830 /* ListView.swift in Sources */,
 				328565482CF5DDDC0001C830 /* NetworkClient.swift in Sources */,
 				328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */,
 				3285652C2CF4CC9C0001C830 /* ListPresenter.swift in Sources */,
+				328565552CF602B40001C830 /* TodosDataModel.xcdatamodeld in Sources */,
 				328565372CF4CF6D0001C830 /* TaskEditPresenter.swift in Sources */,
 				3285653D2CF4CF9E0001C830 /* TaskEditRouter.swift in Sources */,
 				328565392CF4CF7A0001C830 /* TaskEditConfigurator.swift in Sources */,
 				3285653B2CF4CF920001C830 /* TaskEditInteractor.swift in Sources */,
 				328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */,
-				3285654F2CF5EC080001C830 /* Task.swift in Sources */,
+				3285654F2CF5EC080001C830 /* Todo.swift in Sources */,
 				328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -707,13 +751,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		328564FE2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld */ = {
+		328565532CF602B40001C830 /* TodosDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				328564FF2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodel */,
+				328565542CF602B40001C830 /* TasksDataModel.xcdatamodel */,
 			);
-			currentVersion = 328564FF2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodel */;
-			path = ToDoList_ios_VIPER.xcdatamodeld;
+			currentVersion = 328565542CF602B40001C830 /* TasksDataModel.xcdatamodel */;
+			path = TodosDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
