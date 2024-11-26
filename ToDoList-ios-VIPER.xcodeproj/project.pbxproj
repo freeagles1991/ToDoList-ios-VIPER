@@ -9,14 +9,25 @@
 /* Begin PBXBuildFile section */
 		328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F52CF4CB490001C830 /* AppDelegate.swift */; };
 		328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F72CF4CB490001C830 /* SceneDelegate.swift */; };
-		328564FA2CF4CB490001C830 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F92CF4CB490001C830 /* ViewController.swift */; };
-		328564FD2CF4CB490001C830 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 328564FC2CF4CB490001C830 /* Base */; };
 		328565002CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 328564FE2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld */; };
 		328565022CF4CB4A0001C830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 328565012CF4CB4A0001C830 /* Assets.xcassets */; };
 		328565052CF4CB4A0001C830 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 328565042CF4CB4A0001C830 /* Base */; };
 		328565102CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */; };
 		3285651A2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565192CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift */; };
 		3285651C2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285651B2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift */; };
+		3285652A2CF4CC130001C830 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565292CF4CC130001C830 /* ListView.swift */; };
+		3285652C2CF4CC9C0001C830 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652B2CF4CC9C0001C830 /* ListPresenter.swift */; };
+		3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652D2CF4CD710001C830 /* ListConfigurator.swift */; };
+		328565302CF4CDA20001C830 /* ListIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652F2CF4CDA20001C830 /* ListIterator.swift */; };
+		328565322CF4CED80001C830 /* ListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565312CF4CED80001C830 /* ListRouter.swift */; };
+		328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565342CF4CF5F0001C830 /* TaskEditView.swift */; };
+		328565372CF4CF6D0001C830 /* TaskEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565362CF4CF6D0001C830 /* TaskEditPresenter.swift */; };
+		328565392CF4CF7A0001C830 /* TaskEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565382CF4CF7A0001C830 /* TaskEditConfigurator.swift */; };
+		3285653B2CF4CF920001C830 /* TaskEditInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285653A2CF4CF920001C830 /* TaskEditInteractor.swift */; };
+		3285653D2CF4CF9E0001C830 /* TaskEditRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285653C2CF4CF9E0001C830 /* TaskEditRouter.swift */; };
+		328565412CF4D1060001C830 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565402CF4D1060001C830 /* Colors.swift */; };
+		328565432CF4D1300001C830 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565422CF4D1300001C830 /* Fonts.swift */; };
+		328565452CF4F2A00001C830 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565442CF4F2A00001C830 /* ListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +51,6 @@
 		328564F22CF4CB490001C830 /* ToDoList-ios-VIPER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-ios-VIPER.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		328564F52CF4CB490001C830 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		328564F72CF4CB490001C830 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		328564F92CF4CB490001C830 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		328564FC2CF4CB490001C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		328564FF2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList_ios_VIPER.xcdatamodel; sourceTree = "<group>"; };
 		328565012CF4CB4A0001C830 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		328565042CF4CB4A0001C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +60,19 @@
 		328565152CF4CB4A0001C830 /* ToDoList-ios-VIPERUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ToDoList-ios-VIPERUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		328565192CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList_ios_VIPERUITests.swift; sourceTree = "<group>"; };
 		3285651B2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList_ios_VIPERUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		328565292CF4CC130001C830 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		3285652B2CF4CC9C0001C830 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
+		3285652D2CF4CD710001C830 /* ListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurator.swift; sourceTree = "<group>"; };
+		3285652F2CF4CDA20001C830 /* ListIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIterator.swift; sourceTree = "<group>"; };
+		328565312CF4CED80001C830 /* ListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouter.swift; sourceTree = "<group>"; };
+		328565342CF4CF5F0001C830 /* TaskEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditView.swift; sourceTree = "<group>"; };
+		328565362CF4CF6D0001C830 /* TaskEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditPresenter.swift; sourceTree = "<group>"; };
+		328565382CF4CF7A0001C830 /* TaskEditConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditConfigurator.swift; sourceTree = "<group>"; };
+		3285653A2CF4CF920001C830 /* TaskEditInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditInteractor.swift; sourceTree = "<group>"; };
+		3285653C2CF4CF9E0001C830 /* TaskEditRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditRouter.swift; sourceTree = "<group>"; };
+		328565402CF4D1060001C830 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		328565422CF4D1300001C830 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		328565442CF4F2A00001C830 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +123,10 @@
 		328564F42CF4CB490001C830 /* ToDoList-ios-VIPER */ = {
 			isa = PBXGroup;
 			children = (
+				3285653F2CF4D0EF0001C830 /* UI */,
+				3285653E2CF4D0B30001C830 /* Screens */,
 				328564F52CF4CB490001C830 /* AppDelegate.swift */,
 				328564F72CF4CB490001C830 /* SceneDelegate.swift */,
-				328564F92CF4CB490001C830 /* ViewController.swift */,
-				328564FB2CF4CB490001C830 /* Main.storyboard */,
 				328565012CF4CB4A0001C830 /* Assets.xcassets */,
 				328565032CF4CB4A0001C830 /* LaunchScreen.storyboard */,
 				328565062CF4CB4A0001C830 /* Info.plist */,
@@ -128,6 +150,49 @@
 				3285651B2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift */,
 			);
 			path = "ToDoList-ios-VIPERUITests";
+			sourceTree = "<group>";
+		};
+		328565282CF4CBC70001C830 /* ListScreen */ = {
+			isa = PBXGroup;
+			children = (
+				328565292CF4CC130001C830 /* ListView.swift */,
+				3285652B2CF4CC9C0001C830 /* ListPresenter.swift */,
+				3285652D2CF4CD710001C830 /* ListConfigurator.swift */,
+				3285652F2CF4CDA20001C830 /* ListIterator.swift */,
+				328565312CF4CED80001C830 /* ListRouter.swift */,
+				328565442CF4F2A00001C830 /* ListCell.swift */,
+			);
+			path = ListScreen;
+			sourceTree = "<group>";
+		};
+		328565332CF4CF410001C830 /* TaskEditScreen */ = {
+			isa = PBXGroup;
+			children = (
+				328565342CF4CF5F0001C830 /* TaskEditView.swift */,
+				328565362CF4CF6D0001C830 /* TaskEditPresenter.swift */,
+				328565382CF4CF7A0001C830 /* TaskEditConfigurator.swift */,
+				3285653A2CF4CF920001C830 /* TaskEditInteractor.swift */,
+				3285653C2CF4CF9E0001C830 /* TaskEditRouter.swift */,
+			);
+			path = TaskEditScreen;
+			sourceTree = "<group>";
+		};
+		3285653E2CF4D0B30001C830 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				328565332CF4CF410001C830 /* TaskEditScreen */,
+				328565282CF4CBC70001C830 /* ListScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		3285653F2CF4D0EF0001C830 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				328565402CF4D1060001C830 /* Colors.swift */,
+				328565422CF4D1300001C830 /* Fonts.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +301,6 @@
 			files = (
 				328565022CF4CB4A0001C830 /* Assets.xcassets in Resources */,
 				328565052CF4CB4A0001C830 /* Base in Resources */,
-				328564FD2CF4CB490001C830 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +325,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328565432CF4D1300001C830 /* Fonts.swift in Sources */,
+				328565322CF4CED80001C830 /* ListRouter.swift in Sources */,
+				328565412CF4D1060001C830 /* Colors.swift in Sources */,
 				328565002CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld in Sources */,
-				328564FA2CF4CB490001C830 /* ViewController.swift in Sources */,
+				3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */,
+				328565452CF4F2A00001C830 /* ListCell.swift in Sources */,
+				328565302CF4CDA20001C830 /* ListIterator.swift in Sources */,
+				3285652A2CF4CC130001C830 /* ListView.swift in Sources */,
 				328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */,
+				3285652C2CF4CC9C0001C830 /* ListPresenter.swift in Sources */,
+				328565372CF4CF6D0001C830 /* TaskEditPresenter.swift in Sources */,
+				3285653D2CF4CF9E0001C830 /* TaskEditRouter.swift in Sources */,
+				328565392CF4CF7A0001C830 /* TaskEditConfigurator.swift in Sources */,
+				3285653B2CF4CF920001C830 /* TaskEditInteractor.swift in Sources */,
 				328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */,
+				328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,14 +377,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		328564FB2CF4CB490001C830 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				328564FC2CF4CB490001C830 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		328565032CF4CB4A0001C830 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -451,7 +519,6 @@
 				INFOPLIST_FILE = "ToDoList-ios-VIPER/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -479,7 +546,6 @@
 				INFOPLIST_FILE = "ToDoList-ios-VIPER/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
