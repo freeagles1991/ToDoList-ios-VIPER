@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let navigationController = UINavigationController(rootViewController: ListViewControllerImpl())
+        let navigationController = UINavigationController(rootViewController: ListViewControllerImpl(networkClient: NetworkClient()))
         window.rootViewController = navigationController
 
         self.window = window

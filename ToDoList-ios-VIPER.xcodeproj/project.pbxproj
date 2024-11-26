@@ -28,6 +28,9 @@
 		328565412CF4D1060001C830 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565402CF4D1060001C830 /* Colors.swift */; };
 		328565432CF4D1300001C830 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565422CF4D1300001C830 /* Fonts.swift */; };
 		328565452CF4F2A00001C830 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565442CF4F2A00001C830 /* ListCell.swift */; };
+		328565482CF5DDDC0001C830 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565472CF5DDDC0001C830 /* NetworkClient.swift */; };
+		3285654F2CF5EC080001C830 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285654E2CF5EC080001C830 /* Task.swift */; };
+		328565512CF5F4CE0001C830 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565502CF5F4CE0001C830 /* GlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,9 @@
 		328565402CF4D1060001C830 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		328565422CF4D1300001C830 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		328565442CF4F2A00001C830 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		328565472CF5DDDC0001C830 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		3285654E2CF5EC080001C830 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		328565502CF5F4CE0001C830 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,8 @@
 		328564F42CF4CB490001C830 /* ToDoList-ios-VIPER */ = {
 			isa = PBXGroup;
 			children = (
+				3285654D2CF5EB970001C830 /* Entities */,
+				328565462CF5DDC30001C830 /* Network */,
 				3285653F2CF4D0EF0001C830 /* UI */,
 				3285653E2CF4D0B30001C830 /* Screens */,
 				328564F52CF4CB490001C830 /* AppDelegate.swift */,
@@ -131,6 +139,7 @@
 				328565032CF4CB4A0001C830 /* LaunchScreen.storyboard */,
 				328565062CF4CB4A0001C830 /* Info.plist */,
 				328564FE2CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld */,
+				328565502CF5F4CE0001C830 /* GlobalConstants.swift */,
 			);
 			path = "ToDoList-ios-VIPER";
 			sourceTree = "<group>";
@@ -193,6 +202,22 @@
 				328565422CF4D1300001C830 /* Fonts.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		328565462CF5DDC30001C830 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				328565472CF5DDDC0001C830 /* NetworkClient.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3285654D2CF5EB970001C830 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				3285654E2CF5EC080001C830 /* Task.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				328565432CF4D1300001C830 /* Fonts.swift in Sources */,
+				328565512CF5F4CE0001C830 /* GlobalConstants.swift in Sources */,
 				328565322CF4CED80001C830 /* ListRouter.swift in Sources */,
 				328565412CF4D1060001C830 /* Colors.swift in Sources */,
 				328565002CF4CB490001C830 /* ToDoList_ios_VIPER.xcdatamodeld in Sources */,
@@ -333,6 +359,7 @@
 				328565452CF4F2A00001C830 /* ListCell.swift in Sources */,
 				328565302CF4CDA20001C830 /* ListIterator.swift in Sources */,
 				3285652A2CF4CC130001C830 /* ListView.swift in Sources */,
+				328565482CF5DDDC0001C830 /* NetworkClient.swift in Sources */,
 				328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */,
 				3285652C2CF4CC9C0001C830 /* ListPresenter.swift in Sources */,
 				328565372CF4CF6D0001C830 /* TaskEditPresenter.swift in Sources */,
@@ -340,6 +367,7 @@
 				328565392CF4CF7A0001C830 /* TaskEditConfigurator.swift in Sources */,
 				3285653B2CF4CF920001C830 /* TaskEditInteractor.swift in Sources */,
 				328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */,
+				3285654F2CF5EC080001C830 /* Task.swift in Sources */,
 				328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

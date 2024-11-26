@@ -15,6 +15,7 @@ protocol ListViewController: UIViewController {
 final class ListViewControllerImpl: UIViewController, ListViewController {
     // MARK: - Public Properties
     var presenter: ListPresenter?
+    let networkClient: NetworkClientProtocol
     
     enum Constants {
         static var title = "Задачи"
@@ -40,10 +41,21 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         tableView.delegate = self
         return tableView
     }()
-    private let data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+    
+    private var tasks: [Todo] = []
 
     // MARK: - Initializers
-
+    
+    init(presenter: ListPresenter? = nil, networkClient: NetworkClientProtocol) {
+        self.presenter = presenter
+        self.networkClient = networkClient
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Overrides Methods
     
     override func viewDidLoad() {
@@ -54,6 +66,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         addSubviews()
         setupNavigation()
         setupTableView()
+        
+        loadData()
     }
     // MARK: - Actions
 
@@ -81,13 +95,26 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    private func loadData() {
+        guard let url = URL(string: GlobalConstants.apiUrl) else { return }
+        networkClient.get(from: url, type: TodosResponse.self) { [weak self] result in
+            switch result {
+            case .success(let todos):
+                guard let self else {return}
+                print("Загружено \(todos.todos.count) задач")
+            case .failure(let error):
+                print("Ошибка при загрузке \(error)")
+            }
+        }
+    }
 
 }
 
 // MARK: - UITableViewDataSource
 extension ListViewControllerImpl: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return 5
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -100,7 +127,7 @@ extension ListViewControllerImpl: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ListViewControllerImpl: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected: \(data[indexPath.row])")
+        //print("Selected: \(data[indexPath.row])")
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
