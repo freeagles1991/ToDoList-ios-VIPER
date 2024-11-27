@@ -32,7 +32,7 @@ final class TodoStore: NSObject {
         fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
 
-    func object(at indexPath: IndexPath) -> Todo? {
+    func object(at indexPath: IndexPath) -> Todo {
         guard let fetchedResultsController else { return Todo.defaultTodo }
         let todoEntity = fetchedResultsController.object(at: indexPath)
         return todoEntity.toTodo()

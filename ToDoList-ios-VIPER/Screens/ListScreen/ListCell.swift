@@ -16,18 +16,26 @@ final class ListCell: UITableViewCell {
 
     // MARK: - Private Properties
     private lazy var checkmarkButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("◻︎", for: .normal) // Стиль невыбранного чекмарка
-        button.setTitle("✔︎", for: .selected) // Стиль выбранного чекмарка
-        button.tintColor = .systemBlue
+        let button = UIButton(type: .custom)
+        
+        let normalImage = UIImage(systemName: "circle")
+        let selectedImage = UIImage(systemName: "checkmark.circle")
+
+        button.setImage(normalImage, for: .normal)
+        button.setImage(selectedImage, for: .selected)
+        
+        button.tintColor = .white
+        button.backgroundColor = .clear
+        
         button.addTarget(self, action: #selector(checkmarkTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.regular16
         label.textColor = .label
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,16 +44,16 @@ final class ListCell: UITableViewCell {
 
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.regular12
         label.textColor = .secondaryLabel
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.regular12
         label.textColor = .tertiaryLabel
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,15 +89,21 @@ final class ListCell: UITableViewCell {
 
     // MARK: - Actions
     @objc private func checkmarkTapped() {
+        updateButtonState()
+    }
+    
+    private func updateButtonState() {
         checkmarkButton.isSelected.toggle()
+        checkmarkButton.tintColor = checkmarkButton.isSelected ? .systemYellow : .white
     }
 
     // MARK: - Public Methods
-    func configure(title: String, description: String, date: String, isCompleted: Bool) {
-        titleLabel.text = title
-        descriptionLabel.text = description
-        dateLabel.text = date
-        checkmarkButton.isSelected = isCompleted
+    func configure(with todo: Todo) {
+        titleLabel.text = todo.title
+        descriptionLabel.text = todo.text
+        dateLabel.text = todo.date.toString()
+        checkmarkButton.isSelected = todo.completed
+        updateButtonState()
     }
 
     // MARK: - Private Methods
@@ -98,17 +112,15 @@ final class ListCell: UITableViewCell {
         contentView.addSubview(contentStackView)
 
         NSLayoutConstraint.activate([
-            // Checkmark Button
-            checkmarkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            checkmarkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            checkmarkButton.widthAnchor.constraint(equalToConstant: 30),
-            checkmarkButton.heightAnchor.constraint(equalToConstant: 30),
+            checkmarkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            checkmarkButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            checkmarkButton.widthAnchor.constraint(equalToConstant: 24),
+            checkmarkButton.heightAnchor.constraint(equalToConstant: 24),
 
-            // Content StackView
-            contentStackView.leadingAnchor.constraint(equalTo: checkmarkButton.trailingAnchor, constant: 16),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            contentStackView.leadingAnchor.constraint(equalTo: checkmarkButton.trailingAnchor, constant: 8),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
 }

@@ -113,17 +113,67 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
             }
         }
     }
+    
+    private func editTodo(_ todo: Todo) {
+        print("Editing Todo: \(todo)")
+        // Редактируем в отдельном экране
+    }
+
+    private func shareTodo(_ todo: Todo) {
+        print("Sharing Todo: \(todo)")
+        // Обработать
+    }
+
+    private func deleteTodo(_ todo: Todo) {
+        print("Deleting Todo: \(todo)")
+        // Удаляем из БД
+    }
+    
+    // MARK: - Context Menu Configuration
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let todo = todoStore.object(at: indexPath)
+        let config = UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: nil) { _ in
+            
+            let editTodo = UIAction(
+                title: "Редактировать",
+                identifier: nil
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.editTodo(todo)
+            }
+            
+            let shareTodo = UIAction(
+                title: "Поделиться",
+                identifier: nil
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.shareTodo(todo)
+            }
+        
+            let deleteTodo = UIAction(
+                title: "Удалить",
+                identifier: nil,
+                attributes: .destructive
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.deleteTodo(todo)
+            }
+            return UIMenu(title: "", children: [editTodo, shareTodo, deleteTodo])
+        }
+        return config
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension ListViewControllerImpl: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        print(todoStore.numberOfRowsInSection(section))
+        return todoStore.numberOfRowsInSection(section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.Constants.identifier, for: indexPath) as? ListCell else {return UITableViewCell()}
-        cell.configure(title: "Название", description: "Описание", date: "01/01/2020", isCompleted: false)
+        cell.configure(with: todoStore.object(at: indexPath))
         return cell
     }
 }
