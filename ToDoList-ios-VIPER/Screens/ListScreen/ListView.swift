@@ -116,7 +116,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     private func editTodo(_ todo: Todo) {
         print("Editing Todo: \(todo)")
-        // Редактируем в отдельном экране
+        let editVC = TaskEditViewControllerImpl(todo: todo)
+        navigationController?.pushViewController(editVC, animated: true)
     }
 
     private func shareTodo(_ todo: Todo) {

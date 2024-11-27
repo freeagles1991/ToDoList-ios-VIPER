@@ -45,7 +45,7 @@ final class ListCell: UITableViewCell {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.regular12
-        label.textColor = .secondaryLabel
+        label.textColor = .dynamicGray
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +54,7 @@ final class ListCell: UITableViewCell {
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.regular12
-        label.textColor = .tertiaryLabel
+        label.textColor = .dynamicGray
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
