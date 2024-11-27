@@ -16,6 +16,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     // MARK: - Public Properties
     var presenter: ListPresenter?
     let networkClient: NetworkClientProtocol
+    let todoStore: TodoStore
     
     enum Constants {
         static var title = "Задачи"
@@ -46,9 +47,10 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
 
     // MARK: - Initializers
     
-    init(presenter: ListPresenter? = nil, networkClient: NetworkClientProtocol) {
+    init(presenter: ListPresenter? = nil, networkClient: NetworkClientProtocol, todoStore: TodoStore) {
         self.presenter = presenter
         self.networkClient = networkClient
+        self.todoStore = todoStore
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,7 +69,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         setupNavigation()
         setupTableView()
         
-        loadData()
+        //loadData()
     }
     // MARK: - Actions
 
@@ -100,15 +102,17 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         guard let url = URL(string: GlobalConstants.apiUrl) else { return }
         networkClient.get(from: url, type: TodosResponse.self) { [weak self] result in
             switch result {
-            case .success(let todos):
+            case .success(let todosResponse):
                 guard let self else {return}
-                print("Загружено \(todos.todos.count) задач")
+                let todos = todosResponse.toTodos()
+                for todo in todos {
+                    todoStore.createTodo(with: todo)
+                }
             case .failure(let error):
                 print("Ошибка при загрузке \(error)")
             }
         }
     }
-
 }
 
 // MARK: - UITableViewDataSource

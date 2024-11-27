@@ -49,7 +49,7 @@ final class TodoStore: NSObject {
         let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "todo", ascending: true)
+            NSSortDescriptor(key: "title", ascending: true)
         ]
         
         lastUsedPredicate = predicate
@@ -115,7 +115,7 @@ final class TodoStore: NSObject {
         let todoEntity = todo.toEntity(context: context)
         
         saveChanges()
-        print("TodoEntity created and saved: \(todoEntity)")
+        print("TodoEntity created and saved: \(todoEntity.title)")
     }
     
     //MARK: Обновляем задачу

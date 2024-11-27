@@ -36,6 +36,7 @@
 		32D7F54E2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F54C2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift */; };
 		32D7F5512CF647530026605C /* String+toDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5502CF647530026605C /* String+toDate.swift */; };
 		32D7F5532CF64A230026605C /* Date+toString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5522CF64A230026605C /* Date+toString.swift */; };
+		32D7F5552CF7470F0026605C /* String+makeTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5542CF7470F0026605C /* String+makeTitle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		32D7F54C2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		32D7F5502CF647530026605C /* String+toDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+toDate.swift"; sourceTree = "<group>"; };
 		32D7F5522CF64A230026605C /* Date+toString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+toString.swift"; sourceTree = "<group>"; };
+		32D7F5542CF7470F0026605C /* String+makeTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+makeTitle.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				32D7F5502CF647530026605C /* String+toDate.swift */,
+				32D7F5542CF7470F0026605C /* String+makeTitle.swift */,
 				32D7F5522CF64A230026605C /* Date+toString.swift */,
 			);
 			path = Extensions;
@@ -397,6 +400,7 @@
 				32D7F54D2CF6448F0026605C /* TodoEntity+CoreDataClass.swift in Sources */,
 				32D7F54E2CF6448F0026605C /* TodoEntity+CoreDataProperties.swift in Sources */,
 				328565412CF4D1060001C830 /* Colors.swift in Sources */,
+				32D7F5552CF7470F0026605C /* String+makeTitle.swift in Sources */,
 				3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */,
 				32D7F5532CF64A230026605C /* Date+toString.swift in Sources */,
 				328565452CF4F2A00001C830 /* ListCell.swift in Sources */,

@@ -12,12 +12,27 @@ struct TodoResponse: Codable {
     let todo: String
     let completed: Bool
     let userId: Int
-    
+}
 
+extension TodoResponse {
+    func toTodo() -> Todo {
+        return Todo(
+            id: UUID(),
+            title: todo.makeShortTitle(),
+            text: todo,
+            completed: completed,
+            date: Date())
+    }
 }
 
 struct TodosResponse: Codable {
     let todos: [TodoResponse]
+}
+
+extension TodosResponse {
+    func toTodos() -> [Todo] {
+        return todos.map { $0.toTodo() }
+    }
 }
 
 struct Todo: Identifiable {
