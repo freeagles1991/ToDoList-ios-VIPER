@@ -35,8 +35,8 @@ final class ListCell: UITableViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.regular16
-        label.textColor = .label
+        //label.font = UIFont.regular16
+        //label.textColor = .dynamicBlack
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ final class ListCell: UITableViewCell {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.regular12
-        label.textColor = .dynamicGray
+        label.textColor = .dynamicBlack
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -67,6 +67,23 @@ final class ListCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    private lazy var attributedTextStrikethroughStyle = NSAttributedString(
+        string: titleLabel.text ?? "",
+        attributes: [
+            .font: UIFont.regular16,
+            .foregroundColor: UIColor.dynamicGray,
+            .strikethroughStyle: NSUnderlineStyle.single.rawValue
+        ]
+    )
+    
+    private lazy var attributedTextCommonStyle = NSAttributedString(
+        string: titleLabel.text ?? "",
+        attributes: [
+            .font: UIFont.regular16,
+            .foregroundColor: UIColor.dynamicBlack,
+        ]
+    )
 
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -89,12 +106,22 @@ final class ListCell: UITableViewCell {
 
     // MARK: - Actions
     @objc private func checkmarkTapped() {
+        updateCellState()
+    }
+    
+    private func updateCellState() {
         updateButtonState()
+        updateTextFontStyle()
     }
     
     private func updateButtonState() {
         checkmarkButton.isSelected.toggle()
         checkmarkButton.tintColor = checkmarkButton.isSelected ? .systemYellow : .white
+    }
+    
+    private func updateTextFontStyle() {
+        descriptionLabel.textColor = checkmarkButton.isSelected ? .dynamicGray : .dynamicBlack
+        titleLabel.attributedText = checkmarkButton.isSelected ? attributedTextStrikethroughStyle : attributedTextCommonStyle
     }
 
     // MARK: - Public Methods
@@ -103,7 +130,7 @@ final class ListCell: UITableViewCell {
         descriptionLabel.text = todo.text
         dateLabel.text = todo.date.toString()
         checkmarkButton.isSelected = todo.completed
-        updateButtonState()
+        updateCellState()
     }
 
     // MARK: - Private Methods
