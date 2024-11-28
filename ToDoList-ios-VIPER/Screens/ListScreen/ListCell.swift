@@ -10,6 +10,8 @@ import UIKit
 
 final class ListCell: UITableViewCell {
     // MARK: - Public Properties
+    var onCheckmarkTapped: (() -> Void)?
+    
     enum Constants {
         static let identifier = "ListCell"
     }
@@ -89,7 +91,7 @@ final class ListCell: UITableViewCell {
 
     // MARK: - Actions
     @objc private func checkmarkTapped() {
-        updateCellState()
+        onCheckmarkTapped?()
     }
     
     private func updateCellState() {
@@ -125,13 +127,15 @@ final class ListCell: UITableViewCell {
     }
 
     // MARK: - Public Methods
-    func configure(with todo: Todo) {
+    func configure(with todo: Todo, onCheckmarkTapped: @escaping () -> Void) {
+        self.onCheckmarkTapped = onCheckmarkTapped
         titleLabel.text = todo.title
         descriptionLabel.text = todo.text
         dateLabel.text = todo.date.toString()
         checkmarkButton.isSelected = todo.completed
         updateCellState()
     }
+    
 
     // MARK: - Private Methods
     private func setupView() {

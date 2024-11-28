@@ -69,8 +69,11 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         setupNavigation()
         setupTableView()
         
-        //loadDataFromNetwork()
-        loadData()
+        todoStore.removeAllData() { [weak self] in
+            DispatchQueue.main.async {
+                self?.loadDataFromNetwork()
+            }
+        }
     }
     // MARK: - Actions
 
@@ -120,6 +123,14 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
                 }
             case .failure(let error):
                 print("Ошибка при загрузке \(error)")
+            }
+        }
+    }
+    
+    private func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath) {
+        todoStore.updateTodo(todo) {
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [indexPath], with: .fade)
             }
         }
     }
@@ -197,8 +208,30 @@ extension ListViewControllerImpl: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.Constants.identifier, for: indexPath) as? ListCell else {return UITableViewCell()}
-        cell.configure(with: todoStore.object(at: indexPath))
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.Constants.identifier, for: indexPath) as? ListCell else {
+            return UITableViewCell()
+        }
+        
+        let todo = todoStore.object(at: indexPath)
+        
+        cell.configure(with: todo) { [weak self] in
+            guard let self = self else { return }
+            
+            guard let currentIndexPath = tableView.indexPath(for: cell) else { return }
+            
+            print("Checkmark tapped at row: \(currentIndexPath.row)")
+            
+            let updatedTodo = Todo(
+                id: todo.id,
+                title: todo.title,
+                text: todo.text,
+                completed: !todo.completed,
+                date: todo.date
+            )
+            
+            self.toggleTodoCompleteState(updatedTodo, at: currentIndexPath)
+        }
+        
         return cell
     }
 }

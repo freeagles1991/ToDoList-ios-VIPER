@@ -153,6 +153,32 @@ final class TodoStore: NSObject {
         }
     }
     
+    //MARK: Удаляем все данные
+    public func removeAllData(completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "TodoEntity")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try self.context.execute(deleteRequest)
+                
+                try self.context.save()
+                
+                DispatchQueue.main.async {
+                    self.todos.removeAll()
+                    completion?()
+                }
+            } catch {
+                print("Failed to delete all data: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            }
+        }
+    }
+    
     //MARK: Сохраняем контекст
     private func saveChanges(completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
