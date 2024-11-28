@@ -27,11 +27,11 @@ extension TodoEntity {
 extension TodoEntity: Identifiable {
     func toTodo() -> Todo {
         return Todo(
-            id: id,
-            title: title,
-            text: text,
-            completed: completed,
-            date: date.toDate())
+            id: self.id,
+            title: self.title,
+            text: self.text,
+            completed: self.completed,
+            date: self.date.toDate())
     }
 }
 

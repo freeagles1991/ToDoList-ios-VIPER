@@ -67,23 +67,6 @@ final class ListCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
-    private lazy var attributedTextStrikethroughStyle = NSAttributedString(
-        string: titleLabel.text ?? "",
-        attributes: [
-            .font: UIFont.regular16,
-            .foregroundColor: UIColor.dynamicGray,
-            .strikethroughStyle: NSUnderlineStyle.single.rawValue
-        ]
-    )
-    
-    private lazy var attributedTextCommonStyle = NSAttributedString(
-        string: titleLabel.text ?? "",
-        attributes: [
-            .font: UIFont.regular16,
-            .foregroundColor: UIColor.dynamicBlack,
-        ]
-    )
 
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -96,13 +79,13 @@ final class ListCell: UITableViewCell {
     }
 
     // MARK: - Overrides Methods
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        checkmarkButton.isSelected = false
-        titleLabel.text = nil
-        descriptionLabel.text = nil
-        dateLabel.text = nil
-    }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        checkmarkButton.isSelected = false
+//        titleLabel.text = nil
+//        descriptionLabel.text = nil
+//        dateLabel.text = nil
+//    }
 
     // MARK: - Actions
     @objc private func checkmarkTapped() {
@@ -119,9 +102,26 @@ final class ListCell: UITableViewCell {
         checkmarkButton.tintColor = checkmarkButton.isSelected ? .systemYellow : .white
     }
     
+
     private func updateTextFontStyle() {
         descriptionLabel.textColor = checkmarkButton.isSelected ? .dynamicGray : .dynamicBlack
-        titleLabel.attributedText = checkmarkButton.isSelected ? attributedTextStrikethroughStyle : attributedTextCommonStyle
+        
+        let attributedText = NSAttributedString(
+            string: titleLabel.text ?? "",
+            attributes: checkmarkButton.isSelected
+                ? [
+                    .font: UIFont.regular16,
+                    .foregroundColor: UIColor.dynamicGray,
+                    .strikethroughStyle: NSUnderlineStyle.single.rawValue
+                ]
+                : [
+                    .font: UIFont.regular16,
+                    .foregroundColor: UIColor.dynamicBlack,
+                    .strikethroughStyle: 0
+                ]
+        )
+        
+        titleLabel.attributedText = attributedText
     }
 
     // MARK: - Public Methods

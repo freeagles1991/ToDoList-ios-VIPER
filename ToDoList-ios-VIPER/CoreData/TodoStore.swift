@@ -12,6 +12,7 @@ import CoreData
 import UIKit
 
 final class TodoStore: NSObject {
+    var todos: [Todo] = []
     
     private var appDelegate: AppDelegate {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -24,156 +25,140 @@ final class TodoStore: NSObject {
         appDelegate.persistentContainer.viewContext
     }
     
-    var fetchedResultsController: NSFetchedResultsController<TodoEntity>?
-    private var lastUsedPredicate: NSPredicate = NSPredicate()
+    private let backgroundQueue = DispatchQueue(label: "com.todoApp.backgroundQueue", qos: .userInitiated)
     
     //MARK: Public
-    func numberOfRowsInSection(_ section: Int) -> Int {
-        fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+    func numberOfRows() -> Int {
+        return todos.count
     }
 
     func object(at indexPath: IndexPath) -> Todo {
-        guard let fetchedResultsController else { return Todo.defaultTodo }
-        let todoEntity = fetchedResultsController.object(at: indexPath)
-        return todoEntity.toTodo()
+        return todos[indexPath.row]
     }
     
     override init() {
         super.init()
-        let predicate = NSPredicate(value: true)
-        setupFetchedResultsController(predicate)
     }
     
-    // MARK: Настраиваем FRC
-    func setupFetchedResultsController(_ predicate: NSPredicate) {
-        let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-        
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "title", ascending: true)
-        ]
-        
-        lastUsedPredicate = predicate
-        
-        fetchRequest.predicate = predicate
-        
-        fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: context,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            print("Не удалось выполнить выборку данных: \(error)")
-        }
-    }
-    
-    // MARK: Обновляем предикат в FRC
-    func updateFetchedResultsController(with predicate: NSPredicate, titlePredicate: NSPredicate? = nil) {
-        
-        lastUsedPredicate = predicate
-
-        let combinedPredicate = combinePredicates(basePredicate: predicate, titlePredicate: titlePredicate)
-
-        fetchedResultsController?.fetchRequest.predicate = combinedPredicate
-        
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            print("Ошибка при выполнении выборки: \(error)")
-        }
-    }
-    
-    // MARK: Объединяем предикаты
-    private func combinePredicates(basePredicate: NSPredicate, titlePredicate: NSPredicate?) -> NSPredicate {
-        if let titlePredicate = titlePredicate {
-            return NSCompoundPredicate(andPredicateWithSubpredicates: [basePredicate, titlePredicate])
-        } else {
-            return basePredicate
-        }
-    }
-    
-    //MARK: Все задачи
-    public func fetchTodos() -> [Todo]? {
-        let predicate = NSPredicate(value: true)
-        
-        self.updateFetchedResultsController(with: predicate)
-        
-        guard let fetchedObjects = fetchedResultsController?.fetchedObjects else {
-            return []
-        }
-        
-        return fetchedObjects.compactMap { todoEntity in
-            todoEntity.toTodo()
+    //MARK: Загрузить задачи
+    func fetchTodos(completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+            
+            do {
+                let fetchedObjects = try self.context.fetch(fetchRequest)
+                self.todos = fetchedObjects.compactMap { $0.toTodo() }
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            } catch {
+                print("Failed to fetch Todos: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            }
         }
     }
     
     //MARK: Создаем задачу
-    public func createTodo(with todo: Todo) {
-        let todoEntity = todo.toEntity(context: context)
-        
-        saveChanges()
-        print("TodoEntity created and saved: \(todoEntity.title)")
+    func addTodo(_ todo: Todo, completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            let _ = todo.toEntity(context: self.context)
+            
+            do {
+                try self.context.save()
+                DispatchQueue.main.async {
+                    self.todos.append(todo)
+                    completion?()
+                }
+            } catch {
+                print("Failed to save Todo: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
+            }
+        }
     }
     
     //MARK: Обновляем задачу
-    public func updateTodo(for todo: Todo) {
-        let predicate = NSPredicate(format: "id == %d", todo.id as CVarArg)
-
-        let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-        fetchRequest.predicate = predicate
-
-        do {
-            let results = try context.fetch(fetchRequest)
-            guard let todoEntity = results.first else {
-                print("Todo not found")
-                return
+    func updateTodo(_ todo: Todo, completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
+            
+            do {
+                let results = try self.context.fetch(fetchRequest)
+                if let todoEntity = results.first {
+                    todoEntity.title = todo.title
+                    todoEntity.text = todo.text
+                    todoEntity.completed = todo.completed
+                    todoEntity.date = todo.date.toString()
+                    
+                    try self.context.save()
+                    
+                    DispatchQueue.main.async {
+                        if let index = self.todos.firstIndex(where: { $0.id == todo.id }) {
+                            self.todos[index] = todo
+                        }
+                        completion?()
+                    }
+                }
+            } catch {
+                print("Failed to update Todo: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
-
-            todoEntity.title = todo.title
-            todoEntity.completed = todo.completed
-            todoEntity.text = todo.text
-            todoEntity.date = todo.date.toString()
-
-            saveChanges()
-            print("Todo updated successfully: \(todoEntity)")
-        } catch {
-            print("Failed to update Todo: \(error)")
         }
     }
     
     //MARK: Удаляем задачу
-    public func removeTodo(with id: UUID) {
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        
-        let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-        fetchRequest.predicate = predicate
-
-        do {
-            let results = try context.fetch(fetchRequest)
-            guard let todoEntity = results.first else {
-                print("Todo not found")
-                return
+    func removeTodo(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            let todo = self.todos[indexPath.row]
+            
+            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
+            
+            do {
+                let results = try self.context.fetch(fetchRequest)
+                if let todoEntity = results.first {
+                    self.context.delete(todoEntity)
+                    try self.context.save()
+                    
+                    DispatchQueue.main.async {
+                        self.todos.remove(at: indexPath.row)
+                        completion?()
+                    }
+                }
+            } catch {
+                print("Failed to delete Todo: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
-
-            context.delete(todoEntity)
-            saveChanges()
-            print("Todo deleted successfully: \(todoEntity)")
-        } catch {
-            print("Failed to delete Todo: \(error)")
         }
     }
     
     //MARK: Сохраняем контекст
-    private func saveChanges() {
-        if context.hasChanges {
+    private func saveChanges(completion: (() -> Void)? = nil) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
             do {
-                try context.save()
-                print("Changes saved successfully.")
+                try self.context.save()
+                DispatchQueue.main.async {
+                    completion?()
+                }
             } catch {
                 print("Failed to save changes: \(error)")
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
         }
     }

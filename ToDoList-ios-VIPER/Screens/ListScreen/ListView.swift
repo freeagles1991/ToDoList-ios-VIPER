@@ -69,7 +69,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         setupNavigation()
         setupTableView()
         
-        //loadData()
+        //loadDataFromNetwork()
+        loadData()
     }
     // MARK: - Actions
 
@@ -99,6 +100,16 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
     
     private func loadData() {
+        todoStore.fetchTodos { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+
+    
+    private func loadDataFromNetwork() {
         guard let url = URL(string: GlobalConstants.apiUrl) else { return }
         networkClient.get(from: url, type: TodosResponse.self) { [weak self] result in
             switch result {
@@ -106,7 +117,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
                 guard let self else {return}
                 let todos = todosResponse.toTodos()
                 for todo in todos {
-                    todoStore.createTodo(with: todo)
+                    todoStore.addTodo(todo)
+                    loadData()
                 }
             case .failure(let error):
                 print("Ошибка при загрузке \(error)")
@@ -125,9 +137,12 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         // Обработать
     }
 
-    private func deleteTodo(_ todo: Todo) {
-        print("Deleting Todo: \(todo)")
-        // Удаляем из БД
+    private func removeTodo(at indexPath: IndexPath) {
+        todoStore.removeTodo(at: indexPath) { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        }
     }
     
     // MARK: - Context Menu Configuration
@@ -157,7 +172,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
                 attributes: .destructive
             ) { [weak self] _ in
                 guard let self else { return }
-                self.deleteTodo(todo)
+                self.removeTodo(at: indexPath)
             }
             return UIMenu(title: "", children: [editTodo, shareTodo, deleteTodo])
         }
@@ -168,8 +183,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
 // MARK: - UITableViewDataSource
 extension ListViewControllerImpl: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(todoStore.numberOfRowsInSection(section))
-        return todoStore.numberOfRowsInSection(section)
+        print(todoStore.numberOfRows())
+        return todoStore.numberOfRows()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
