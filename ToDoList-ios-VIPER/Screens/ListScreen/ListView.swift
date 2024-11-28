@@ -107,8 +107,6 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         }
     }
     
-
-    
     private func loadDataFromNetwork() {
         guard let url = URL(string: GlobalConstants.apiUrl) else { return }
         networkClient.get(from: url, type: TodosResponse.self) { [weak self] result in
@@ -126,9 +124,20 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         }
     }
     
-    private func editTodo(_ todo: Todo) {
-        print("Editing Todo: \(todo)")
+    private func editTodo(_ todo: Todo, at indexPath: IndexPath) {
+        print("Editing Todo at \(indexPath): \(todo)")
         let editVC = TaskEditViewControllerImpl(todo: todo)
+        
+        editVC.onDismiss = { [weak self] updatedTodo in
+            guard let self = self else { return }
+            
+            self.todoStore.updateTodo(updatedTodo) {
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
+            }
+        }
+        
         navigationController?.pushViewController(editVC, animated: true)
     }
 
@@ -140,7 +149,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     private func removeTodo(at indexPath: IndexPath) {
         todoStore.removeTodo(at: indexPath) { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                self?.tableView.deleteRows(at: [indexPath], with: .left)
             }
         }
     }
@@ -155,7 +164,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
                 identifier: nil
             ) { [weak self] _ in
                 guard let self else { return }
-                self.editTodo(todo)
+                self.editTodo(todo, at: indexPath)
             }
             
             let shareTodo = UIAction(

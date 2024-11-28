@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 
 protocol TaskEditViewController: UIViewController {
-    
+    var onDismiss: ((_ todo: Todo) -> Void)? { get set }
 }
 
 final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController {
+    
     // MARK: - Public Properties
+    var onDismiss: ((Todo) -> Void)?
 
     // MARK: - Private Properties
     private let todo: Todo
@@ -69,6 +71,10 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        let updatedTodo = Todo(id: todo.id, title: titleLabel.text ?? "", text: textView.text, completed: todo.completed, date: todo.date)
+        
+        onDismiss?(updatedTodo)
     }
     
     // MARK: - Actions

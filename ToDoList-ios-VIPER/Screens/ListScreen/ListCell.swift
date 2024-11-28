@@ -79,13 +79,13 @@ final class ListCell: UITableViewCell {
     }
 
     // MARK: - Overrides Methods
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        checkmarkButton.isSelected = false
-//        titleLabel.text = nil
-//        descriptionLabel.text = nil
-//        dateLabel.text = nil
-//    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        checkmarkButton.isSelected = false
+        titleLabel.text = nil
+        descriptionLabel.text = nil
+        dateLabel.text = nil
+    }
 
     // MARK: - Actions
     @objc private func checkmarkTapped() {

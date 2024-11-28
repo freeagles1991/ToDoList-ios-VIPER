@@ -87,6 +87,7 @@ final class TodoStore: NSObject {
     func updateTodo(_ todo: Todo, completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
             guard let self = self else { return }
+            
             let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
             
@@ -103,12 +104,19 @@ final class TodoStore: NSObject {
                     DispatchQueue.main.async {
                         if let index = self.todos.firstIndex(where: { $0.id == todo.id }) {
                             self.todos[index] = todo
+                        } else {
+                            print("Todo not found in todos array for update")
                         }
+                        completion?()
+                    }
+                } else {
+                    print("Todo not found in Core Data for update")
+                    DispatchQueue.main.async {
                         completion?()
                     }
                 }
             } catch {
-                print("Failed to update Todo: \(error)")
+                print("Failed to update Todo in Core Data: \(error)")
                 DispatchQueue.main.async {
                     completion?()
                 }
