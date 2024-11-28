@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    func toString(format: String = "MM/dd/yy") -> String {
+    func toString(format: String = "dd/MM/yy") -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         dateFormatter.timeZone = TimeZone.current

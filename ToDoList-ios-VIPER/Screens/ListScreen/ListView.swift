@@ -130,7 +130,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     private func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath) {
         todoStore.updateTodo(todo) {
             DispatchQueue.main.async {
-                self.tableView.reloadRows(at: [indexPath], with: .fade)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
     }
