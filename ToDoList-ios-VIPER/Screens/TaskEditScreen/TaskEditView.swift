@@ -8,17 +8,23 @@
 import Foundation
 import UIKit
 
+enum TodoActionType {
+    case created
+    case updated
+}
+
 protocol TaskEditViewController: UIViewController {
-    var onDismiss: ((_ todo: Todo) -> Void)? { get set }
+    var onDismiss: ((TodoActionType, Todo) -> Void)? { get set }
 }
 
 final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController {
     
     // MARK: - Public Properties
-    var onDismiss: ((Todo) -> Void)?
+    var onDismiss: ((TodoActionType, Todo) -> Void)?
 
     // MARK: - Private Properties
     private let todo: Todo
+    private let isNewTask: Bool
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -52,8 +58,9 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     }()
     
     // MARK: - Initializers
-    init(todo: Todo) {
+    init(todo: Todo, isNewTask: Bool) {
         self.todo = todo
+        self.isNewTask = isNewTask
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -74,7 +81,13 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
         
         let updatedTodo = Todo(id: todo.id, title: titleLabel.text ?? "", text: textView.text, completed: todo.completed, date: todo.date)
         
-        onDismiss?(updatedTodo)
+        if isNewTask {
+                print(updatedTodo)
+                onDismiss?(.created, updatedTodo)
+            } else {
+                print(updatedTodo)
+                onDismiss?(.updated, updatedTodo)
+            }
     }
     
     // MARK: - Actions

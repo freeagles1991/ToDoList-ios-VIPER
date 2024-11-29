@@ -42,7 +42,15 @@ struct Todo: Identifiable {
     let completed: Bool
     let date: Date
     
-    static let defaultTodo: Todo = Todo(id: UUID(), title: "Default Title", text: nil, completed: false, date: Date())
+    enum Constants {
+        static let defaultTodoTitle = "Default Title"
+        static let defaultTodoText = "Default Text"
+        static let newTodoTitle = "Новая задача"
+        static let newTodoText = "Добавьте описание задачи"
+    }
+    
+    static let defaultTodo: Todo = Todo(id: UUID(), title: Constants.defaultTodoTitle, text: Constants.defaultTodoText, completed: false, date: Date())
+    static let newTodo: Todo = Todo(id: UUID(), title: Constants.newTodoTitle, text: Constants.newTodoText, completed: false, date: Date())
 }
 
 

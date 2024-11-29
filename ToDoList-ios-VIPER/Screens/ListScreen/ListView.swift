@@ -114,9 +114,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     // MARK: - Actions
     @objc private func addNewTaskTapped() {
         print("Add New Task Tapped")
-        // Переход на экран добавления задачи
-//        let addTaskVC = AddTaskViewController()
-//        navigationController?.pushViewController(addTaskVC, animated: true)
+        openTaskEditVC(for: Todo.newTodo, isNewTask: true)
     }
 
     // MARK: - Public Methods
@@ -228,21 +226,34 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         }
     }
     
-    private func editTodo(_ todo: Todo, at indexPath: IndexPath) {
-        print("Editing Todo at \(indexPath): \(todo)")
-        let editVC = TaskEditViewControllerImpl(todo: todo)
-        
-        editVC.onDismiss = { [weak self] updatedTodo in
-            guard let self = self else { return }
-            
-            self.todoStore.updateTodo(updatedTodo) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+    private func openTaskEditVC(for todo: Todo, isNewTask: Bool, indexPath: IndexPath? = nil) {
+        let editVC = TaskEditViewControllerImpl(todo: todo, isNewTask: isNewTask)
+        editVC.onDismiss = { [weak self] actionType, todo in
+            switch actionType {
+            case .created:
+                if isNewTask {
+                    self?.todoStore.addTodo(todo) {
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadData()
+                        }
+                    }
+                }
+            case .updated:
+                if let indexPath = indexPath {
+                    self?.todoStore.updateTodo(todo) {
+                        DispatchQueue.main.async {
+                            self?.tableView.reloadRows(at: [indexPath], with: .fade)
+                        }
+                    }
                 }
             }
         }
-        
         navigationController?.pushViewController(editVC, animated: true)
+    }
+    
+    private func editTodo(_ todo: Todo, at indexPath: IndexPath) {
+        print("Editing Todo at \(indexPath): \(todo)")
+        openTaskEditVC(for: todo, isNewTask: false, indexPath: indexPath)
     }
 
     private func shareTodo(_ todo: Todo) {

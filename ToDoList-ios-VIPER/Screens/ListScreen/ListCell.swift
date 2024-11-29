@@ -100,7 +100,6 @@ final class ListCell: UITableViewCell {
     }
     
     private func updateButtonState() {
-        checkmarkButton.isSelected.toggle()
         checkmarkButton.tintColor = checkmarkButton.isSelected ? .systemYellow : .white
     }
     
