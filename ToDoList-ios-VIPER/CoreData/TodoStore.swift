@@ -12,7 +12,12 @@ import CoreData
 import UIKit
 
 final class TodoStore: NSObject {
-    var todos: [Todo] = []
+    var todos: [Todo] = [] {
+        didSet {
+            onDataUpdate?()
+        }
+    }
+    var onDataUpdate: (() -> Void)?
     
     private var appDelegate: AppDelegate {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -33,6 +38,9 @@ final class TodoStore: NSObject {
     }
 
     func object(at indexPath: IndexPath) -> Todo {
+        guard indexPath.row >= 0 && indexPath.row < todos.count else {
+            fatalError("Index out of range: \(indexPath.row), but todos count is \(todos.count)")
+        }
         return todos[indexPath.row]
     }
     

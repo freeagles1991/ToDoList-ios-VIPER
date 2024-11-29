@@ -21,6 +21,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     enum Constants {
         static var title = "Задачи"
         static var searchBarPlaceholder = "Search"
+        static var footerText = "задач"
     }
     
     // MARK: - Private Properties
@@ -41,7 +42,40 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsSelection = false
         return tableView
+    }()
+    
+    private lazy var footerView: UIView = {
+        let footerView = UIView()
+        footerView.backgroundColor = .yaGray
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        return footerView
+    }()
+    
+    private lazy var safeAreaBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .yaGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private lazy var footerLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor.dynamicBlack
+        label.font = UIFont.regular11
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var addTaskButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        button.tintColor = .systemYellow
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addNewTaskTapped), for: .touchUpInside)
+        return button
     }()
     
     private var tasks: [Todo] = []
@@ -66,9 +100,10 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         configurator.configure()
         view.backgroundColor = .systemBackground
         
+        setupTodoStore()
         addSubviews()
         setupNavigation()
-        setupTableView()
+        setupConstraints()
         
         todoStore.removeAllData() { [weak self] in
             DispatchQueue.main.async {
@@ -77,6 +112,12 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         }
     }
     // MARK: - Actions
+    @objc private func addNewTaskTapped() {
+        print("Add New Task Tapped")
+        // Переход на экран добавления задачи
+//        let addTaskVC = AddTaskViewController()
+//        navigationController?.pushViewController(addTaskVC, animated: true)
+    }
 
     // MARK: - Public Methods
 
@@ -84,6 +125,10 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     private func addSubviews(){
         view.addSubview(tableView)
+        view.addSubview(footerView)
+        view.addSubview(safeAreaBackgroundView)
+        footerView.addSubview(footerLabel)
+        footerView.addSubview(addTaskButton)
     }
     
     private func setupNavigation() {
@@ -95,19 +140,45 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
        
     
-    private func setupTableView() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
+            
+            safeAreaBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            safeAreaBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            safeAreaBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            safeAreaBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            footerView.heightAnchor.constraint(equalToConstant: 50),
+            
+            footerLabel.centerYAnchor.constraint(equalTo: footerView.centerYAnchor),
+            footerLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor),
+            
+            addTaskButton.centerYAnchor.constraint(equalTo: footerView.centerYAnchor),
+            addTaskButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func setupTodoStore() {
+        todoStore.onDataUpdate = { [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.footerLabel.text = "\(self.todoStore.numberOfRows()) \(Constants.footerText)"
+            }
+        }
     }
     
     private func loadData() {
         todoStore.fetchTodos { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                guard let self else { return }
+                self.tableView.reloadData()
             }
         }
     }
