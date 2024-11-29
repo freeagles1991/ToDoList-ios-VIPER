@@ -17,7 +17,7 @@ protocol TaskEditViewController: UIViewController {
     var onDismiss: ((TodoActionType, Todo) -> Void)? { get set }
 }
 
-final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController {
+final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController, UITextFieldDelegate {
     
     // MARK: - Public Properties
     var onDismiss: ((TodoActionType, Todo) -> Void)?
@@ -26,12 +26,15 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     private let todo: Todo
     private let isNewTask: Bool
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.bold34
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var titleTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.bold34
+        textField.textAlignment = .left
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.borderStyle = .none
+        textField.returnKeyType = .done
+        textField.delegate = self
+        return textField
     }()
     
     private lazy var dateLabel: UILabel = {
@@ -81,7 +84,7 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
         
         let updatedTodo = Todo(
             id: isNewTask ? UUID() : todo.id,
-            title: titleLabel.text ?? "",
+            title: titleTextField.text ?? "",
             text: textView.text,
             completed: todo.completed,
             date: todo.date
@@ -99,18 +102,18 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     // MARK: - Private Methods
     
     private func setupSubviews() {
-        view.addSubview(titleLabel)
+        view.addSubview(titleTextField)
         view.addSubview(dateLabel)
         view.addSubview(textView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            dateLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 16),
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -122,7 +125,7 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     }
     
     private func configure() {
-        titleLabel.text = todo.title
+        titleTextField.text = todo.title
         dateLabel.text = todo.date.toString()
         textView.text = todo.text
     }
