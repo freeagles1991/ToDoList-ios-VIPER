@@ -29,6 +29,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = Constants.searchBarPlaceholder
         return searchController
@@ -90,6 +91,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
     }
        
     
@@ -123,6 +125,26 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
                 }
             case .failure(let error):
                 print("Ошибка при загрузке \(error)")
+            }
+        }
+    }
+    
+    private func searchTodos(byTitle title: String) {
+        guard !title.isEmpty else {
+            todoStore.fetchTodos {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            return
+        }
+        
+        todoStore.searchTodos(byTitle: title) {
+            DispatchQueue.main.async {
+                if self.todoStore.todos.isEmpty {
+                    print("No results found for search query: \(title)")
+                }
+                self.tableView.reloadData()
             }
         }
     }
@@ -239,15 +261,18 @@ extension ListViewControllerImpl: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ListViewControllerImpl: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //print("Selected: \(data[indexPath.row])")
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 // MARK: - UISearchResultsUpdating
-extension ListViewControllerImpl: UISearchResultsUpdating {
+extension ListViewControllerImpl: UISearchResultsUpdating, UISearchControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
-        //guard let searchText = searchController.searchBar.text else { return }
-        //обработка фильтрации
+        guard let searchText = searchController.searchBar.text else { return }
+        searchTodos(byTitle: searchText)
+    }
+
+    func didDismissSearchController(_ searchController: UISearchController) {
+        searchTodos(byTitle: "") // Загружаем все данные
     }
 }

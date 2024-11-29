@@ -62,6 +62,32 @@ final class TodoStore: NSObject {
         }
     }
     
+    //MARK: Поиск задачи
+    public func searchTodos(byTitle title: String, completion: @escaping () -> Void) {
+        backgroundQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "title BEGINSWITH[cd] %@", title)
+            
+            do {
+                let results = try self.context.fetch(fetchRequest)
+                self.todos = results.compactMap { $0.toTodo() }
+                
+                DispatchQueue.main.async {
+                    completion()
+                }
+            } catch {
+                print("Failed to search Todos by title: \(error)")
+                
+                DispatchQueue.main.async {
+                    self.todos = []
+                    completion()
+                }
+            }
+        }
+    }
+    
     //MARK: Создаем задачу
     func addTodo(_ todo: Todo, completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
