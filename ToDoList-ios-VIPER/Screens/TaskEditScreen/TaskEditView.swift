@@ -79,15 +79,17 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let updatedTodo = Todo(id: todo.id, title: titleLabel.text ?? "", text: textView.text, completed: todo.completed, date: todo.date)
+        let updatedTodo = Todo(
+            id: isNewTask ? UUID() : todo.id,
+            title: titleLabel.text ?? "",
+            text: textView.text,
+            completed: todo.completed,
+            date: todo.date
+        )
         
-        if isNewTask {
-                print(updatedTodo)
-                onDismiss?(.created, updatedTodo)
-            } else {
-                print(updatedTodo)
-                onDismiss?(.updated, updatedTodo)
-            }
+        let actionType: TodoActionType = isNewTask ? .created : .updated
+        print(updatedTodo)
+        onDismiss?(actionType, updatedTodo)
     }
     
     // MARK: - Actions
