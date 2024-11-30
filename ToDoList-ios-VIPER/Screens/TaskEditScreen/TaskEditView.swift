@@ -8,23 +8,16 @@
 import Foundation
 import UIKit
 
-enum TodoActionType {
-    case created
-    case updated
-}
-
 protocol TaskEditViewController: UIViewController {
-    var onDismiss: ((TodoActionType, Todo) -> Void)? { get set }
+    func displayTodoData(title: String, date: String, text: String?)
 }
 
 final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController, UITextFieldDelegate {
     
     // MARK: - Public Properties
-    var onDismiss: ((TodoActionType, Todo) -> Void)?
+    var presenter: TaskEditPresenter?
 
     // MARK: - Private Properties
-    private let todo: Todo
-    private let isNewTask: Bool
     
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
@@ -61,43 +54,29 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     }()
     
     // MARK: - Initializers
-    init(todo: Todo, isNewTask: Bool) {
-        self.todo = todo
-        self.isNewTask = isNewTask
-        super.init(nibName: nil, bundle: nil)
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupSubviews()
         setupConstraints()
-        configure()
+        presenter?.viewDidLoad()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        let updatedTodo = Todo(
-            id: isNewTask ? UUID() : todo.id,
-            title: titleTextField.text ?? "",
-            text: textView.text,
-            completed: todo.completed,
-            date: todo.date
-        )
-        
-        let actionType: TodoActionType = isNewTask ? .created : .updated
-        print(updatedTodo)
-        onDismiss?(actionType, updatedTodo)
+        presenter?.didFinishEditing(title: titleTextField.text, text: textView.text)
     }
     
     // MARK: - Actions
 
     // MARK: - Public Methods
+    func displayTodoData(title: String, date: String, text: String?) {
+        titleTextField.text = title
+        dateLabel.text = date
+        textView.text = text
+    }
 
     // MARK: - Private Methods
     
@@ -122,12 +101,6 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
             textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
-    }
-    
-    private func configure() {
-        titleTextField.text = todo.title
-        dateLabel.text = todo.date.toString()
-        textView.text = todo.text
     }
     
 }

@@ -53,4 +53,9 @@ struct Todo: Identifiable {
     static let newTodo: Todo = Todo(id: UUID(), title: Constants.newTodoTitle, text: Constants.newTodoText, completed: false, date: Date())
 }
 
+enum TodoActionType {
+    case created
+    case updated
+}
+
 

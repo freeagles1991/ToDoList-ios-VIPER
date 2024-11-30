@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol ListViewController: UIViewController {
-    func loadData()
+    func loadData() 
 }
 
 final class ListViewControllerImpl: UIViewController, ListViewController {
@@ -77,8 +77,6 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         button.addTarget(self, action: #selector(addNewTaskTapped), for: .touchUpInside)
         return button
     }()
-    
-    private var tasks: [Todo] = []
 
     // MARK: - Initializers
     
@@ -204,27 +202,23 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
     
     private func openTaskEditVC(for todo: Todo, isNewTask: Bool, indexPath: IndexPath? = nil) {
-        let editVC = TaskEditViewControllerImpl(todo: todo, isNewTask: isNewTask)
-        editVC.onDismiss = { [weak self] actionType, todo in
-            switch actionType {
-            case .created:
-                if isNewTask {
-                    self?.todoStore.addTodo(todo) {
-                        DispatchQueue.main.async {
-                            self?.tableView.reloadData()
-                        }
-                    }
+        let editVC = TaskEditConfiguratorImpl.build(
+            todoStore: todoStore,
+            todo: todo,
+            isNewTask: isNewTask,
+            onTaskCreated: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
-            case .updated:
+            },
+            onTaskUpdated: { [weak self] in
                 if let indexPath = indexPath {
-                    self?.todoStore.updateTodo(todo) {
-                        DispatchQueue.main.async {
-                            self?.tableView.reloadRows(at: [indexPath], with: .fade)
-                        }
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
                 }
             }
-        }
+        )
         navigationController?.pushViewController(editVC, animated: true)
     }
     
