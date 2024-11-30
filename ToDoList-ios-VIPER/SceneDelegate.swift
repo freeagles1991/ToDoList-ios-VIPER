@@ -9,26 +9,51 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-
+    
     func scene(
-            _ scene: UIScene,
-            willConnectTo session: UISceneSession,
-            options connectionOptions: UIScene.ConnectionOptions
-        ) {
-            guard let windowScene = (scene as? UIWindowScene) else { return }
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
 
-            let todoStore = TodoStore()
-            let networkClient = NetworkClient()
-            
-            let navigationController = UINavigationController(
-                rootViewController: ListViewControllerImpl(networkClient: networkClient, todoStore: todoStore)
-            )
+        let todoStore = TodoStore()
+        let networkClient = NetworkClient()
+        let dataLoader = DataLoader(networkClient: networkClient, todoStore: todoStore)
 
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = navigationController
-            self.window = window
-            window.makeKeyAndVisible()
+        let listViewController = ListViewControllerImpl(networkClient: networkClient, todoStore: todoStore)
+        let navigationController = UINavigationController(rootViewController: listViewController)
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = navigationController
+        self.window = window
+        window.makeKeyAndVisible()
+
+        let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
+
+        if !isFirstLaunch {
+            print("First launch detected. Loading data from network...")
+            DispatchQueue.global(qos: .background).async {
+                dataLoader.loadDataFromNetwork {
+                    DispatchQueue.main.async {
+                        listViewController.loadData()
+                        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+                        print("Data loaded from network and UI updated")
+                    }
+                }
+            }
+        } else {
+            print("Not the first launch. Loading data from Core Data...")
+            DispatchQueue.global(qos: .background).async {
+                todoStore.fetchTodos {
+                    DispatchQueue.main.async {
+                        listViewController.loadData()
+                        print("Data loaded from Core Data and UI updated")
+                    }
+                }
+            }
         }
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

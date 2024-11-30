@@ -10,24 +10,9 @@ import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private var dataLoader: DataLoader?
-    private let todoStore = TodoStore()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let networkClient = NetworkClient()
-        dataLoader = DataLoader(networkClient: networkClient, todoStore: todoStore)
-        
-        DispatchQueue.global(qos: .background).async {
-            self.todoStore.removeAllData { [weak self] in
-                guard let self else { return }
-                self.dataLoader?.loadDataFromNetwork {
-                    DispatchQueue.main.async {
-                        self.notifyRootViewControllerToLoadData()
-                    }
-                }
-            }
-        }
-        
+
         return true
     }
     
