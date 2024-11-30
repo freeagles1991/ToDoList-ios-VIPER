@@ -37,6 +37,7 @@
 		32D7F5512CF647530026605C /* String+toDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5502CF647530026605C /* String+toDate.swift */; };
 		32D7F5532CF64A230026605C /* Date+toString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5522CF64A230026605C /* Date+toString.swift */; };
 		32D7F5552CF7470F0026605C /* String+makeTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5542CF7470F0026605C /* String+makeTitle.swift */; };
+		32D7F5582CFA38320026605C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7F5572CFA38320026605C /* DataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		32D7F5502CF647530026605C /* String+toDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+toDate.swift"; sourceTree = "<group>"; };
 		32D7F5522CF64A230026605C /* Date+toString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+toString.swift"; sourceTree = "<group>"; };
 		32D7F5542CF7470F0026605C /* String+makeTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+makeTitle.swift"; sourceTree = "<group>"; };
+		32D7F5572CFA38320026605C /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,11 +143,12 @@
 		328564F42CF4CB490001C830 /* ToDoList-ios-VIPER */ = {
 			isa = PBXGroup;
 			children = (
+				32D7F5562CFA37FB0026605C /* Helpers */,
 				32D7F54F2CF647350026605C /* Extensions */,
 				328565522CF6027B0001C830 /* CoreData */,
 				3285654D2CF5EB970001C830 /* Models */,
 				328565462CF5DDC30001C830 /* Network */,
-				3285653F2CF4D0EF0001C830 /* UI */,
+				3285653F2CF4D0EF0001C830 /* UIDesign */,
 				3285653E2CF4D0B30001C830 /* Screens */,
 				328564F52CF4CB490001C830 /* AppDelegate.swift */,
 				328564F72CF4CB490001C830 /* SceneDelegate.swift */,
@@ -208,13 +211,13 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		3285653F2CF4D0EF0001C830 /* UI */ = {
+		3285653F2CF4D0EF0001C830 /* UIDesign */ = {
 			isa = PBXGroup;
 			children = (
 				328565402CF4D1060001C830 /* Colors.swift */,
 				328565422CF4D1300001C830 /* Fonts.swift */,
 			);
-			path = UI;
+			path = UIDesign;
 			sourceTree = "<group>";
 		};
 		328565462CF5DDC30001C830 /* Network */ = {
@@ -260,6 +263,14 @@
 				32D7F5522CF64A230026605C /* Date+toString.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		32D7F5562CFA37FB0026605C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				32D7F5572CFA38320026605C /* DataLoader.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -414,6 +425,7 @@
 				3285653D2CF4CF9E0001C830 /* TaskEditRouter.swift in Sources */,
 				328565392CF4CF7A0001C830 /* TaskEditConfigurator.swift in Sources */,
 				3285653B2CF4CF920001C830 /* TaskEditInteractor.swift in Sources */,
+				32D7F5582CFA38320026605C /* DataLoader.swift in Sources */,
 				328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */,
 				3285654F2CF5EC080001C830 /* Todo.swift in Sources */,
 				328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */,

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol ListViewController: UIViewController {
-    
+    func loadData()
 }
 
 final class ListViewControllerImpl: UIViewController, ListViewController {
@@ -105,11 +105,6 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         setupNavigation()
         setupConstraints()
         
-        todoStore.removeAllData() { [weak self] in
-            DispatchQueue.main.async {
-                self?.loadDataFromNetwork()
-            }
-        }
     }
     // MARK: - Actions
     @objc private func addNewTaskTapped() {
@@ -118,7 +113,15 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
 
     // MARK: - Public Methods
-
+    func loadData() {
+        todoStore.fetchTodos { [weak self] in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     // MARK: - Private Methods
     
     private func addSubviews(){
@@ -168,32 +171,6 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
             guard let self else { return }
             DispatchQueue.main.async {
                 self.footerLabel.text = "\(self.todoStore.numberOfRows()) \(Constants.footerText)"
-            }
-        }
-    }
-    
-    private func loadData() {
-        todoStore.fetchTodos { [weak self] in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func loadDataFromNetwork() {
-        guard let url = URL(string: GlobalConstants.apiUrl) else { return }
-        networkClient.get(from: url, type: TodosResponse.self) { [weak self] result in
-            switch result {
-            case .success(let todosResponse):
-                guard let self else {return}
-                let todos = todosResponse.toTodos()
-                for todo in todos {
-                    todoStore.addTodo(todo)
-                    loadData()
-                }
-            case .failure(let error):
-                print("Ошибка при загрузке \(error)")
             }
         }
     }

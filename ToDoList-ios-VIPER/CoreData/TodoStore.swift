@@ -51,22 +51,42 @@ final class TodoStore: NSObject {
     //MARK: Загрузить задачи
     func fetchTodos(completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
-            guard let self = self else { return }
+            guard let self = self else {
+                print("Error: Self is nil during fetchTodos task")
+                return
+            }
+            
             let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
             
             do {
                 let fetchedObjects = try self.context.fetch(fetchRequest)
                 self.todos = fetchedObjects.compactMap { $0.toTodo() }
+                
                 DispatchQueue.main.async {
+                    print("Todos fetched successfully, count: \(self.todos.count)")
                     completion?()
                 }
             } catch {
-                print("Failed to fetch Todos: \(error)")
+                print("Error: Failed to fetch Todos: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion?()
                 }
             }
+        }
+    }
+    
+    //MARK: Содержит ли задачу 
+    func contains(_ todo: Todo) -> Bool {
+        let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            print("Failed to check existence of Todo: \(error.localizedDescription)")
+            return false
         }
     }
     
@@ -161,12 +181,22 @@ final class TodoStore: NSObject {
     //MARK: Удаляем задачу
     func removeTodo(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
-            guard let self = self else { return }
-            let todo = self.todos[indexPath.row]
+            guard let self = self else {
+                print("Error: self is nil")
+                return
+            }
             
+            guard indexPath.row >= 0 && indexPath.row < self.todos.count else {
+                print("Error: Invalid indexPath.row \(indexPath.row)")
+                return
+            }
+            
+            let todo = self.todos[indexPath.row]
+            print("Removing Todo with ID: \(todo.id)")
+
             let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
-            
+
             do {
                 let results = try self.context.fetch(fetchRequest)
                 if let todoEntity = results.first {
@@ -177,9 +207,14 @@ final class TodoStore: NSObject {
                         self.todos.remove(at: indexPath.row)
                         completion?()
                     }
+                } else {
+                    print("Error: TodoEntity not found for ID: \(todo.id)")
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             } catch {
-                print("Failed to delete Todo: \(error)")
+                print("Error: Failed to delete Todo: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion?()
                 }
@@ -190,22 +225,25 @@ final class TodoStore: NSObject {
     //MARK: Удаляем все данные
     public func removeAllData(completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
-            guard let self = self else { return }
+            guard let self = self else {
+                print("Error: Self is nil during removeAllData task")
+                return
+            }
             
             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "TodoEntity")
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
             
             do {
                 try self.context.execute(deleteRequest)
-                
                 try self.context.save()
                 
                 DispatchQueue.main.async {
                     self.todos.removeAll()
+                    print("All data removed successfully")
                     completion?()
                 }
             } catch {
-                print("Failed to delete all data: \(error)")
+                print("Error: Failed to delete all data: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion?()
                 }
