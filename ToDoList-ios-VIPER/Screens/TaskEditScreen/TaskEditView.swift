@@ -59,6 +59,7 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationController?.delegate = self
         setupSubviews()
         setupConstraints()
         presenter?.viewDidLoad()
@@ -102,5 +103,12 @@ final class TaskEditViewControllerImpl: UIViewController, TaskEditViewController
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
-    
+}
+
+extension TaskEditViewControllerImpl: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController !== self {
+            presenter?.dismiss()
+        }
+    }
 }

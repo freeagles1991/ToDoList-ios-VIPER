@@ -98,6 +98,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         configurator.configure()
         view.backgroundColor = .systemBackground
         
+        setupCustomBackButton()
         setupTodoStore()
         addSubviews()
         setupNavigation()
@@ -121,6 +122,13 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
     
     // MARK: - Private Methods
+    
+    private func setupCustomBackButton() {
+        let backButton = UIBarButtonItem()
+        backButton.title = "Назад"
+        backButton.tintColor = .systemYellow
+        navigationItem.backBarButtonItem = backButton
+    }
     
     private func addSubviews(){
         view.addSubview(tableView)
