@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		321E6D6C2CFCE02700D0C9D3 /* MockTaskEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D6B2CFCE02700D0C9D3 /* MockTaskEditViewController.swift */; };
+		321E6D6F2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D6E2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift */; };
+		321E6D722CFCE07100D0C9D3 /* MockTaskEditRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D712CFCE07100D0C9D3 /* MockTaskEditRouter.swift */; };
+		324DD40C2CFCE25B00439ED3 /* TaskEditPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D742CFCE0E200D0C9D3 /* TaskEditPresenterTests.swift */; };
+		324DD40E2CFCE31700439ED3 /* MockTodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD40D2CFCE31700439ED3 /* MockTodoStore.swift */; };
+		324DD4102CFCE37000439ED3 /* TaskEditInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD40F2CFCE37000439ED3 /* TaskEditInteractorTests.swift */; };
+		324DD4122CFCE3CF00439ED3 /* MockTaskEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD4112CFCE3CF00439ED3 /* MockTaskEditPresenter.swift */; };
+		324DD4162CFCE44D00439ED3 /* TaskEditViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD4152CFCE44D00439ED3 /* TaskEditViewControllerTests.swift */; };
+		324DD4182CFCE4C400439ED3 /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD4172CFCE4C400439ED3 /* TestConstants.swift */; };
 		328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F52CF4CB490001C830 /* AppDelegate.swift */; };
 		328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F72CF4CB490001C830 /* SceneDelegate.swift */; };
 		328565022CF4CB4A0001C830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 328565012CF4CB4A0001C830 /* Assets.xcassets */; };
@@ -58,6 +67,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		321E6D6B2CFCE02700D0C9D3 /* MockTaskEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditViewController.swift; sourceTree = "<group>"; };
+		321E6D6E2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditInteractor.swift; sourceTree = "<group>"; };
+		321E6D712CFCE07100D0C9D3 /* MockTaskEditRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditRouter.swift; sourceTree = "<group>"; };
+		321E6D742CFCE0E200D0C9D3 /* TaskEditPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditPresenterTests.swift; sourceTree = "<group>"; };
+		324DD40D2CFCE31700439ED3 /* MockTodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTodoStore.swift; sourceTree = "<group>"; };
+		324DD40F2CFCE37000439ED3 /* TaskEditInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditInteractorTests.swift; sourceTree = "<group>"; };
+		324DD4112CFCE3CF00439ED3 /* MockTaskEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditPresenter.swift; sourceTree = "<group>"; };
+		324DD4152CFCE44D00439ED3 /* TaskEditViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewControllerTests.swift; sourceTree = "<group>"; };
+		324DD4172CFCE4C400439ED3 /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		328564F22CF4CB490001C830 /* ToDoList-ios-VIPER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-ios-VIPER.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		328564F52CF4CB490001C830 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		328564F72CF4CB490001C830 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +138,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		321E6D662CFCDF3D00D0C9D3 /* TaskEditScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				321E6D6A2CFCDFEB00D0C9D3 /* MockClasses */,
+				321E6D742CFCE0E200D0C9D3 /* TaskEditPresenterTests.swift */,
+				324DD40F2CFCE37000439ED3 /* TaskEditInteractorTests.swift */,
+				324DD4152CFCE44D00439ED3 /* TaskEditViewControllerTests.swift */,
+			);
+			path = TaskEditScreenTests;
+			sourceTree = "<group>";
+		};
+		321E6D6A2CFCDFEB00D0C9D3 /* MockClasses */ = {
+			isa = PBXGroup;
+			children = (
+				321E6D6B2CFCE02700D0C9D3 /* MockTaskEditViewController.swift */,
+				321E6D6E2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift */,
+				321E6D712CFCE07100D0C9D3 /* MockTaskEditRouter.swift */,
+				324DD40D2CFCE31700439ED3 /* MockTodoStore.swift */,
+				324DD4112CFCE3CF00439ED3 /* MockTaskEditPresenter.swift */,
+			);
+			path = MockClasses;
+			sourceTree = "<group>";
+		};
 		328564E92CF4CB490001C830 = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +204,9 @@
 		3285650E2CF4CB4A0001C830 /* ToDoList-ios-VIPERTests */ = {
 			isa = PBXGroup;
 			children = (
+				321E6D662CFCDF3D00D0C9D3 /* TaskEditScreenTests */,
 				3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */,
+				324DD4172CFCE4C400439ED3 /* TestConstants.swift */,
 			);
 			path = "ToDoList-ios-VIPERTests";
 			sourceTree = "<group>";
@@ -436,7 +479,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				321E6D6C2CFCE02700D0C9D3 /* MockTaskEditViewController.swift in Sources */,
+				324DD4122CFCE3CF00439ED3 /* MockTaskEditPresenter.swift in Sources */,
+				324DD4102CFCE37000439ED3 /* TaskEditInteractorTests.swift in Sources */,
+				321E6D6F2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift in Sources */,
+				324DD4162CFCE44D00439ED3 /* TaskEditViewControllerTests.swift in Sources */,
+				321E6D722CFCE07100D0C9D3 /* MockTaskEditRouter.swift in Sources */,
 				328565102CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift in Sources */,
+				324DD4182CFCE4C400439ED3 /* TestConstants.swift in Sources */,
+				324DD40C2CFCE25B00439ED3 /* TaskEditPresenterTests.swift in Sources */,
+				324DD40E2CFCE31700439ED3 /* MockTodoStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 import UIKit
 
-final class TodoStore: NSObject {
+class TodoStore: NSObject {
     var todos: [Todo] = [] {
         didSet {
             onDataUpdate?()

@@ -55,14 +55,6 @@ final class TaskEditPresenterImpl: TaskEditPresenter {
             return
         }
         
-        let updatedTodo = Todo(
-            id: isNewTask ? UUID() : todo.id,
-            title: title,
-            text: text,
-            completed: todo.completed,
-            date: todo.date
-        )
-        
         if isNewTask {
             interactor.createTask(title: title, text: text) { [weak self] in
                 self?.onTaskCreated?()
