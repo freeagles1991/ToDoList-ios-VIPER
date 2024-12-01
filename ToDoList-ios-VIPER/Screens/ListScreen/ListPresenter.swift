@@ -7,11 +7,61 @@
 
 import Foundation
 
-protocol ListPresenter {
-    
+protocol ListPresenter: AnyObject {
+    func viewDidLoad()
+    func searchTodos(byTitle title: String)
+    func didUpdateTodosCount(with count: Int)
+    func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath)
+    func didToggleTodoState(at indexPath: IndexPath)
+    func removeTodo(at indexPath: IndexPath)
+    func didRemovedTodo(at indexPath: IndexPath)
 }
 
 final class ListPresenterImpl: ListPresenter {
+    enum Constants {
+        static var footerText = "задач"
+    }
+    
     weak var view: ListViewController?
+    var interactor: ListInteractor?
+    var router: ListRouter?
+    
+    func viewDidLoad() {
+        fetchTodos()
+        interactor?.setupTodoStore()
+    }
+    
+    func searchTodos(byTitle title: String) {
+        interactor?.searchTodos(byTitle: title) { [weak self] in
+            self?.view?.updateTableView()
+        }
+    }
+    
+    func didUpdateTodosCount(with count: Int) {
+        let text = "\(count) \(Constants.footerText)"
+        view?.updateFooter(text: text)
+    }
+    
+    func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath) {
+        interactor?.toggleTodoCompleteState(todo, at: indexPath)
+    }
+    
+    func didToggleTodoState(at indexPath: IndexPath) {
+        view?.reloadRow(at: indexPath)
+    }
+    
+    func removeTodo(at indexPath: IndexPath) {
+        interactor?.removeTodo(at: indexPath)
+    }
+    
+    func didRemovedTodo(at indexPath: IndexPath) {
+        view?.deleteRow(at: indexPath)
+    }
+    
+    private func fetchTodos() {
+        interactor?.fetchTodos { [weak self] in
+             self?.view?.updateTableView()
+        }
+    }
     
 }

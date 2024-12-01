@@ -17,7 +17,7 @@
 		3285652A2CF4CC130001C830 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565292CF4CC130001C830 /* ListView.swift */; };
 		3285652C2CF4CC9C0001C830 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652B2CF4CC9C0001C830 /* ListPresenter.swift */; };
 		3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652D2CF4CD710001C830 /* ListConfigurator.swift */; };
-		328565302CF4CDA20001C830 /* ListIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652F2CF4CDA20001C830 /* ListIterator.swift */; };
+		328565302CF4CDA20001C830 /* ListItnteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285652F2CF4CDA20001C830 /* ListItnteractor.swift */; };
 		328565322CF4CED80001C830 /* ListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565312CF4CED80001C830 /* ListRouter.swift */; };
 		328565352CF4CF5F0001C830 /* TaskEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565342CF4CF5F0001C830 /* TaskEditView.swift */; };
 		328565372CF4CF6D0001C830 /* TaskEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565362CF4CF6D0001C830 /* TaskEditPresenter.swift */; };
@@ -72,7 +72,7 @@
 		328565292CF4CC130001C830 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		3285652B2CF4CC9C0001C830 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
 		3285652D2CF4CD710001C830 /* ListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListConfigurator.swift; sourceTree = "<group>"; };
-		3285652F2CF4CDA20001C830 /* ListIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIterator.swift; sourceTree = "<group>"; };
+		3285652F2CF4CDA20001C830 /* ListItnteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItnteractor.swift; sourceTree = "<group>"; };
 		328565312CF4CED80001C830 /* ListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouter.swift; sourceTree = "<group>"; };
 		328565342CF4CF5F0001C830 /* TaskEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditView.swift; sourceTree = "<group>"; };
 		328565362CF4CF6D0001C830 /* TaskEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditPresenter.swift; sourceTree = "<group>"; };
@@ -182,8 +182,8 @@
 			children = (
 				328565292CF4CC130001C830 /* ListView.swift */,
 				3285652B2CF4CC9C0001C830 /* ListPresenter.swift */,
+				3285652F2CF4CDA20001C830 /* ListItnteractor.swift */,
 				3285652D2CF4CD710001C830 /* ListConfigurator.swift */,
-				3285652F2CF4CDA20001C830 /* ListIterator.swift */,
 				328565312CF4CED80001C830 /* ListRouter.swift */,
 				328565442CF4F2A00001C830 /* ListCell.swift */,
 			);
@@ -415,7 +415,7 @@
 				3285652E2CF4CD710001C830 /* ListConfigurator.swift in Sources */,
 				32D7F5532CF64A230026605C /* Date+toString.swift in Sources */,
 				328565452CF4F2A00001C830 /* ListCell.swift in Sources */,
-				328565302CF4CDA20001C830 /* ListIterator.swift in Sources */,
+				328565302CF4CDA20001C830 /* ListItnteractor.swift in Sources */,
 				3285652A2CF4CC130001C830 /* ListView.swift in Sources */,
 				328565482CF5DDDC0001C830 /* NetworkClient.swift in Sources */,
 				328564F62CF4CB490001C830 /* AppDelegate.swift in Sources */,

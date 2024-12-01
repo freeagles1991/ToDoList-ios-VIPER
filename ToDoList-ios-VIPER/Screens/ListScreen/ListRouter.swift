@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ListRouter {
     
 }
 
 final class ListRouterImpl: ListRouter {
-    
+     weak var viewController: UIViewController?
 }

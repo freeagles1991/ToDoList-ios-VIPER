@@ -6,13 +6,23 @@
 //
 
 import Foundation
+import UIKit
 
-protocol ListConfigurator {
-    func configure()
-}
+final class ListConfiguratorImpl {
+    static func build(todoStore: TodoStore) -> UIViewController {
+        let view = ListViewControllerImpl()
+        let router = ListRouterImpl()
+        let presenter = ListPresenterImpl()
+        let interactor = ListInteractorImpl(presenter: presenter, todoStore: todoStore)
 
-final class ListConfiguratorImpl: ListConfigurator {
-    func configure() {
-        //что-то делаем
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.router = router
+
+        view.presenter = presenter
+        router.viewController = view
+
+        return view
     }
 }
+

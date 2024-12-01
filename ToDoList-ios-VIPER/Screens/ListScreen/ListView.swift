@@ -9,24 +9,23 @@ import Foundation
 import UIKit
 
 protocol ListViewController: UIViewController {
-    func loadData() 
+    func updateTableView()
+    func updateFooter(text: String)
+    func reloadRow(at indexPath: IndexPath)
+    func deleteRow(at indexPath: IndexPath)
 }
 
 final class ListViewControllerImpl: UIViewController, ListViewController {
+    
     // MARK: - Public Properties
     var presenter: ListPresenter?
-    let networkClient: NetworkClientProtocol
-    let todoStore: TodoStore
     
     enum Constants {
         static var title = "Задачи"
         static var searchBarPlaceholder = "Search"
-        static var footerText = "задач"
     }
     
     // MARK: - Private Properties
-    private let configurator: ListConfigurator = ListConfiguratorImpl()
-    
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -80,10 +79,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
 
     // MARK: - Initializers
     
-    init(presenter: ListPresenter? = nil, networkClient: NetworkClientProtocol, todoStore: TodoStore) {
+    init(presenter: ListPresenter? = nil) {
         self.presenter = presenter
-        self.networkClient = networkClient
-        self.todoStore = todoStore
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -95,11 +92,9 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurator.configure()
         view.backgroundColor = .systemBackground
         
         setupCustomBackButton()
-        setupTodoStore()
         addSubviews()
         setupNavigation()
         setupConstraints()
@@ -110,19 +105,26 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         print("Add New Task Tapped")
         openTaskEditVC(for: Todo.newTodo, isNewTask: true)
     }
-
+    
     // MARK: - Public Methods
-    func loadData() {
-        todoStore.fetchTodos { [weak self] in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                self.tableView.reloadData()
-            }
-        }
+    func updateTableView() {
+        tableView.reloadData()
+    }
+    
+    func updateFooter(text: String) {
+        self.footerLabel.text = text
+    }
+    
+    func reloadRow(at indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func deleteRow(at indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .left)
     }
     
     // MARK: - Private Methods
-    
+
     private func setupCustomBackButton() {
         let backButton = UIBarButtonItem()
         backButton.title = "Назад"
@@ -172,41 +174,12 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         ])
     }
     
-    private func setupTodoStore() {
-        todoStore.onDataUpdate = { [weak self] in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.footerLabel.text = "\(self.todoStore.numberOfRows()) \(Constants.footerText)"
-            }
-        }
-    }
-    
     private func searchTodos(byTitle title: String) {
-        guard !title.isEmpty else {
-            todoStore.fetchTodos {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-            return
-        }
-        
-        todoStore.searchTodos(byTitle: title) {
-            DispatchQueue.main.async {
-                if self.todoStore.todos.isEmpty {
-                    print("No results found for search query: \(title)")
-                }
-                self.tableView.reloadData()
-            }
-        }
+        presenter?.searchTodos(byTitle: title)
     }
     
     private func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath) {
-        todoStore.updateTodo(todo) {
-            DispatchQueue.main.async {
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
+        presenter?.toggleTodoCompleteState(todo, at: indexPath)
     }
     
     private func openTaskEditVC(for todo: Todo, isNewTask: Bool, indexPath: IndexPath? = nil) {
@@ -241,11 +214,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     }
 
     private func removeTodo(at indexPath: IndexPath) {
-        todoStore.removeTodo(at: indexPath) { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.deleteRows(at: [indexPath], with: .left)
-            }
-        }
+        presenter?.removeTodo(at: indexPath)
     }
     
     // MARK: - Context Menu Configuration
@@ -286,7 +255,6 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
 // MARK: - UITableViewDataSource
 extension ListViewControllerImpl: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(todoStore.numberOfRows())
         return todoStore.numberOfRows()
     }
 
