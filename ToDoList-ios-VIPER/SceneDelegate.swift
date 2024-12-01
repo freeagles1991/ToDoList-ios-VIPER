@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let networkClient = NetworkClient()
         let dataLoader = DataLoader(networkClient: networkClient, todoStore: todoStore)
 
-        let listViewController = ListViewControllerImpl(networkClient: networkClient, todoStore: todoStore)
+        guard let listViewController = ListConfigurator.build(todoStore: todoStore) as? ListViewController else { return }
         let navigationController = UINavigationController(rootViewController: listViewController)
 
         let window = UIWindow(windowScene: windowScene)
@@ -36,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DispatchQueue.global(qos: .background).async {
                 dataLoader.loadDataFromNetwork {
                     DispatchQueue.main.async {
-                        listViewController.loadData()
+                        listViewController.fetchTodos()
                         UserDefaults.standard.set(true, forKey: "isFirstLaunch")
                         print("Data loaded from network and UI updated")
                     }
@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DispatchQueue.global(qos: .background).async {
                 todoStore.fetchTodos {
                     DispatchQueue.main.async {
-                        listViewController.loadData()
+                        listViewController.fetchTodos()
                         print("Data loaded from Core Data and UI updated")
                     }
                 }

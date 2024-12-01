@@ -9,12 +9,16 @@ import Foundation
 
 protocol ListPresenter: AnyObject {
     func viewDidLoad()
+    func fetchTodos()
     func searchTodos(byTitle title: String)
     func didUpdateTodosCount(with count: Int)
     func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath)
     func didToggleTodoState(at indexPath: IndexPath)
     func removeTodo(at indexPath: IndexPath)
     func didRemovedTodo(at indexPath: IndexPath)
+    func openTaskEdit(for todo: Todo, isNewTask: Bool, indexPath: IndexPath?)
+    func numberOfTodos() -> Int
+    func getTodo(at indexPath: IndexPath) -> Todo
 }
 
 final class ListPresenterImpl: ListPresenter {
@@ -33,7 +37,7 @@ final class ListPresenterImpl: ListPresenter {
     
     func searchTodos(byTitle title: String) {
         interactor?.searchTodos(byTitle: title) { [weak self] in
-            self?.view?.updateTableView()
+            self?.view?.reloadData()
         }
     }
     
@@ -58,10 +62,40 @@ final class ListPresenterImpl: ListPresenter {
         view?.deleteRow(at: indexPath)
     }
     
-    private func fetchTodos() {
+    func openTaskEdit(for todo: Todo, isNewTask: Bool, indexPath: IndexPath?) {
+        guard let todoStore = interactor?.getTodoStore() else {return}
+        router?.navigateToTaskEdit(
+            todo: todo,
+            todoStore: todoStore,
+            isNewTask: isNewTask,
+            indexPath: indexPath,
+            onTaskCreated: { [weak self] in
+                self?.view?.reloadData()
+            },
+            onTaskUpdated: { [weak self] in
+                if let indexPath = indexPath {
+                    self?.view?.reloadRow(at: indexPath)
+                }
+            }
+        )
+    }
+    
+    func numberOfTodos() -> Int {
+        guard let interactor else {return 0}
+        return interactor.numberOfTodos()
+    }
+    
+    func getTodo(at indexPath: IndexPath) -> Todo {
+        guard let interactor else {return Todo.defaultTodo}
+        return interactor.getTodo(at: indexPath)
+    }
+    
+    func fetchTodos() {
         interactor?.fetchTodos { [weak self] in
-             self?.view?.updateTableView()
+            self?.view?.reloadData()
         }
     }
+    
+    
     
 }

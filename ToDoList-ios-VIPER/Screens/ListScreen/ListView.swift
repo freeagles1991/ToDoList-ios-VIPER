@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 protocol ListViewController: UIViewController {
-    func updateTableView()
+    func reloadData()
+    func fetchTodos()
     func updateFooter(text: String)
     func reloadRow(at indexPath: IndexPath)
     func deleteRow(at indexPath: IndexPath)
@@ -98,16 +99,20 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         addSubviews()
         setupNavigation()
         setupConstraints()
-        
+        presenter?.viewDidLoad()
     }
     // MARK: - Actions
     @objc private func addNewTaskTapped() {
         print("Add New Task Tapped")
-        openTaskEditVC(for: Todo.newTodo, isNewTask: true)
+        openTaskEdit(for: Todo.newTodo, isNewTask: true)
     }
     
     // MARK: - Public Methods
-    func updateTableView() {
+    func fetchTodos() {
+        presenter?.fetchTodos()
+    }
+    
+    func reloadData() {
         tableView.reloadData()
     }
     
@@ -182,30 +187,13 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         presenter?.toggleTodoCompleteState(todo, at: indexPath)
     }
     
-    private func openTaskEditVC(for todo: Todo, isNewTask: Bool, indexPath: IndexPath? = nil) {
-        let editVC = TaskEditConfiguratorImpl.build(
-            todoStore: todoStore,
-            todo: todo,
-            isNewTask: isNewTask,
-            onTaskCreated: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            },
-            onTaskUpdated: { [weak self] in
-                if let indexPath = indexPath {
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadRows(at: [indexPath], with: .fade)
-                    }
-                }
-            }
-        )
-        navigationController?.pushViewController(editVC, animated: true)
+    private func openTaskEdit(for todo: Todo, isNewTask: Bool, indexPath: IndexPath? = nil) {
+        presenter?.openTaskEdit(for: todo, isNewTask: isNewTask, indexPath: indexPath)
     }
     
     private func editTodo(_ todo: Todo, at indexPath: IndexPath) {
         print("Editing Todo at \(indexPath): \(todo)")
-        openTaskEditVC(for: todo, isNewTask: false, indexPath: indexPath)
+        openTaskEdit(for: todo, isNewTask: false, indexPath: indexPath)
     }
 
     private func shareTodo(_ todo: Todo) {
@@ -219,7 +207,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     // MARK: - Context Menu Configuration
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        let todo = todoStore.object(at: indexPath)
+        guard let todo = presenter?.getTodo(at: indexPath) else { return nil}
+        
         let config = UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: nil) { _ in
             
             let editTodo = UIAction(
@@ -255,15 +244,15 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
 // MARK: - UITableViewDataSource
 extension ListViewControllerImpl: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoStore.numberOfRows()
+        return presenter?.numberOfTodos() ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.Constants.identifier, for: indexPath) as? ListCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.Constants.identifier, for: indexPath) as? ListCell,
+              let todo = presenter?.getTodo(at: indexPath) 
+        else {
             return UITableViewCell()
         }
-        
-        let todo = todoStore.object(at: indexPath)
         
         cell.configure(with: todo) { [weak self] in
             guard let self = self else { return }

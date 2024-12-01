@@ -15,17 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-    
-    private func notifyRootViewControllerToLoadData() {
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-              let navController = sceneDelegate.window?.rootViewController as? UINavigationController,
-              let rootVC = navController.viewControllers.first as? ListViewController else {
-            print("RootViewController is not of type ListViewController")
-            return
-        }
-        
-        rootVC.loadData()
-    }
 
     // MARK: UISceneSession Lifecycle
 

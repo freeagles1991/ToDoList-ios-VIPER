@@ -13,6 +13,9 @@ protocol ListInteractor {
     func setupTodoStore()
     func toggleTodoCompleteState(_ todo: Todo, at indexPath: IndexPath)
     func removeTodo(at indexPath: IndexPath)
+    func getTodoStore() -> TodoStore
+    func numberOfTodos() -> Int
+    func getTodo(at indexPath: IndexPath) -> Todo
 }
 
 final class ListInteractorImpl: ListInteractor {
@@ -79,5 +82,17 @@ final class ListInteractorImpl: ListInteractor {
                 self?.presenter?.didRemovedTodo(at: indexPath)
             }
         }
+    }
+    
+    func getTodoStore() -> TodoStore {
+        return self.todoStore
+    }
+    
+    func numberOfTodos() -> Int {
+        return todoStore.numberOfRows()
+    }
+    
+    func getTodo(at indexPath: IndexPath) -> Todo {
+        return todoStore.object(at: indexPath)
     }
 }

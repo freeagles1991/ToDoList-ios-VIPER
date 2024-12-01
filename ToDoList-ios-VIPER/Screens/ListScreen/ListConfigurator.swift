@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ListConfiguratorImpl {
+final class ListConfigurator {
     static func build(todoStore: TodoStore) -> UIViewController {
         let view = ListViewControllerImpl()
         let router = ListRouterImpl()
