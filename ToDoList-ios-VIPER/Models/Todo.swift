@@ -35,7 +35,7 @@ extension TodosResponse {
     }
 }
 
-struct Todo: Identifiable {
+struct Todo: Identifiable, Equatable {
     let id: UUID
     let title: String
     let text: String?

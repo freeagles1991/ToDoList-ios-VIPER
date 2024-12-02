@@ -10,6 +10,14 @@
 		321E6D6C2CFCE02700D0C9D3 /* MockTaskEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D6B2CFCE02700D0C9D3 /* MockTaskEditViewController.swift */; };
 		321E6D6F2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D6E2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift */; };
 		321E6D722CFCE07100D0C9D3 /* MockTaskEditRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D712CFCE07100D0C9D3 /* MockTaskEditRouter.swift */; };
+		323CC8FF2CFDF1790001C510 /* MockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC8FE2CFDF1790001C510 /* MockListView.swift */; };
+		323CC9022CFDF1AA0001C510 /* MockListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC9012CFDF1AA0001C510 /* MockListInteractor.swift */; };
+		323CC9042CFDF1D50001C510 /* MockListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC9032CFDF1D50001C510 /* MockListRouter.swift */; };
+		323CC9082CFDF2600001C510 /* ListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC9072CFDF2600001C510 /* ListPresenterTests.swift */; };
+		323CC90A2CFDF3990001C510 /* ListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC9092CFDF3990001C510 /* ListInteractorTests.swift */; };
+		323CC90C2CFDF3DD0001C510 /* MockListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC90B2CFDF3DD0001C510 /* MockListPresenter.swift */; };
+		323CC90E2CFDF5930001C510 /* ListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC90D2CFDF5930001C510 /* ListViewControllerTests.swift */; };
+		323CC9102CFDF6690001C510 /* MockTodoStoreForList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323CC90F2CFDF6690001C510 /* MockTodoStoreForList.swift */; };
 		324DD40C2CFCE25B00439ED3 /* TaskEditPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321E6D742CFCE0E200D0C9D3 /* TaskEditPresenterTests.swift */; };
 		324DD40E2CFCE31700439ED3 /* MockTodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD40D2CFCE31700439ED3 /* MockTodoStore.swift */; };
 		324DD4102CFCE37000439ED3 /* TaskEditInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324DD40F2CFCE37000439ED3 /* TaskEditInteractorTests.swift */; };
@@ -20,7 +28,6 @@
 		328564F82CF4CB490001C830 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328564F72CF4CB490001C830 /* SceneDelegate.swift */; };
 		328565022CF4CB4A0001C830 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 328565012CF4CB4A0001C830 /* Assets.xcassets */; };
 		328565052CF4CB4A0001C830 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 328565042CF4CB4A0001C830 /* Base */; };
-		328565102CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */; };
 		3285651A2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565192CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift */; };
 		3285651C2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285651B2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift */; };
 		3285652A2CF4CC130001C830 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328565292CF4CC130001C830 /* ListView.swift */; };
@@ -71,6 +78,14 @@
 		321E6D6E2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditInteractor.swift; sourceTree = "<group>"; };
 		321E6D712CFCE07100D0C9D3 /* MockTaskEditRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditRouter.swift; sourceTree = "<group>"; };
 		321E6D742CFCE0E200D0C9D3 /* TaskEditPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditPresenterTests.swift; sourceTree = "<group>"; };
+		323CC8FE2CFDF1790001C510 /* MockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListView.swift; sourceTree = "<group>"; };
+		323CC9012CFDF1AA0001C510 /* MockListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListInteractor.swift; sourceTree = "<group>"; };
+		323CC9032CFDF1D50001C510 /* MockListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListRouter.swift; sourceTree = "<group>"; };
+		323CC9072CFDF2600001C510 /* ListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTests.swift; sourceTree = "<group>"; };
+		323CC9092CFDF3990001C510 /* ListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInteractorTests.swift; sourceTree = "<group>"; };
+		323CC90B2CFDF3DD0001C510 /* MockListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListPresenter.swift; sourceTree = "<group>"; };
+		323CC90D2CFDF5930001C510 /* ListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerTests.swift; sourceTree = "<group>"; };
+		323CC90F2CFDF6690001C510 /* MockTodoStoreForList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTodoStoreForList.swift; sourceTree = "<group>"; };
 		324DD40D2CFCE31700439ED3 /* MockTodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTodoStore.swift; sourceTree = "<group>"; };
 		324DD40F2CFCE37000439ED3 /* TaskEditInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditInteractorTests.swift; sourceTree = "<group>"; };
 		324DD4112CFCE3CF00439ED3 /* MockTaskEditPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskEditPresenter.swift; sourceTree = "<group>"; };
@@ -83,7 +98,6 @@
 		328565042CF4CB4A0001C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		328565062CF4CB4A0001C830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3285650B2CF4CB4A0001C830 /* ToDoList-ios-VIPERTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ToDoList-ios-VIPERTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList_ios_VIPERTests.swift; sourceTree = "<group>"; };
 		328565152CF4CB4A0001C830 /* ToDoList-ios-VIPERUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ToDoList-ios-VIPERUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		328565192CF4CB4A0001C830 /* ToDoList_ios_VIPERUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList_ios_VIPERUITests.swift; sourceTree = "<group>"; };
 		3285651B2CF4CB4A0001C830 /* ToDoList_ios_VIPERUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList_ios_VIPERUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -161,6 +175,29 @@
 			path = MockClasses;
 			sourceTree = "<group>";
 		};
+		323CC8FD2CFDF1430001C510 /* ListScreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				323CC9002CFDF1810001C510 /* MockClasses */,
+				323CC9072CFDF2600001C510 /* ListPresenterTests.swift */,
+				323CC9092CFDF3990001C510 /* ListInteractorTests.swift */,
+				323CC90D2CFDF5930001C510 /* ListViewControllerTests.swift */,
+			);
+			path = ListScreenTests;
+			sourceTree = "<group>";
+		};
+		323CC9002CFDF1810001C510 /* MockClasses */ = {
+			isa = PBXGroup;
+			children = (
+				323CC8FE2CFDF1790001C510 /* MockListView.swift */,
+				323CC9012CFDF1AA0001C510 /* MockListInteractor.swift */,
+				323CC9032CFDF1D50001C510 /* MockListRouter.swift */,
+				323CC90B2CFDF3DD0001C510 /* MockListPresenter.swift */,
+				323CC90F2CFDF6690001C510 /* MockTodoStoreForList.swift */,
+			);
+			path = MockClasses;
+			sourceTree = "<group>";
+		};
 		328564E92CF4CB490001C830 = {
 			isa = PBXGroup;
 			children = (
@@ -204,8 +241,8 @@
 		3285650E2CF4CB4A0001C830 /* ToDoList-ios-VIPERTests */ = {
 			isa = PBXGroup;
 			children = (
+				323CC8FD2CFDF1430001C510 /* ListScreenTests */,
 				321E6D662CFCDF3D00D0C9D3 /* TaskEditScreenTests */,
-				3285650F2CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift */,
 				324DD4172CFCE4C400439ED3 /* TestConstants.swift */,
 			);
 			path = "ToDoList-ios-VIPERTests";
@@ -479,15 +516,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323CC9082CFDF2600001C510 /* ListPresenterTests.swift in Sources */,
+				323CC90C2CFDF3DD0001C510 /* MockListPresenter.swift in Sources */,
 				321E6D6C2CFCE02700D0C9D3 /* MockTaskEditViewController.swift in Sources */,
 				324DD4122CFCE3CF00439ED3 /* MockTaskEditPresenter.swift in Sources */,
+				323CC8FF2CFDF1790001C510 /* MockListView.swift in Sources */,
+				323CC9102CFDF6690001C510 /* MockTodoStoreForList.swift in Sources */,
 				324DD4102CFCE37000439ED3 /* TaskEditInteractorTests.swift in Sources */,
+				323CC90E2CFDF5930001C510 /* ListViewControllerTests.swift in Sources */,
 				321E6D6F2CFCE04D00D0C9D3 /* MockTaskEditInteractor.swift in Sources */,
 				324DD4162CFCE44D00439ED3 /* TaskEditViewControllerTests.swift in Sources */,
+				323CC9022CFDF1AA0001C510 /* MockListInteractor.swift in Sources */,
 				321E6D722CFCE07100D0C9D3 /* MockTaskEditRouter.swift in Sources */,
-				328565102CF4CB4A0001C830 /* ToDoList_ios_VIPERTests.swift in Sources */,
 				324DD4182CFCE4C400439ED3 /* TestConstants.swift in Sources */,
+				323CC90A2CFDF3990001C510 /* ListInteractorTests.swift in Sources */,
 				324DD40C2CFCE25B00439ED3 /* TaskEditPresenterTests.swift in Sources */,
+				323CC9042CFDF1D50001C510 /* MockListRouter.swift in Sources */,
 				324DD40E2CFCE31700439ED3 /* MockTodoStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
