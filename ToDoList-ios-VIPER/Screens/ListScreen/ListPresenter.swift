@@ -31,7 +31,6 @@ final class ListPresenterImpl: ListPresenter {
     var router: ListRouter?
     
     func viewDidLoad() {
-        fetchTodos()
         interactor?.setupTodoStore()
     }
     

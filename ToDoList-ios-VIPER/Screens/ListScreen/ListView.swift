@@ -36,6 +36,26 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         return searchController
     }()
     
+    private lazy var loadingPlaceholderView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let label = UILabel()
+        label.text = "Загрузка данных..."
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.Constants.identifier)
@@ -99,6 +119,8 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
         addSubviews()
         setupNavigation()
         setupConstraints()
+        
+        toggleLoadingPlaceholder(isLoading: true)
         presenter?.viewDidLoad()
     }
     // MARK: - Actions
@@ -109,10 +131,12 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     // MARK: - Public Methods
     func fetchTodos() {
+        toggleLoadingPlaceholder(isLoading: true)
         presenter?.fetchTodos()
     }
     
     func reloadData() {
+        toggleLoadingPlaceholder(isLoading: false)
         tableView.reloadData()
     }
     
@@ -139,6 +163,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     private func addSubviews(){
         view.addSubview(tableView)
+        view.addSubview(loadingPlaceholderView)
         view.addSubview(footerView)
         view.addSubview(safeAreaBackgroundView)
         footerView.addSubview(footerLabel)
@@ -161,6 +186,11 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor),
             
+            loadingPlaceholderView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingPlaceholderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingPlaceholderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingPlaceholderView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             safeAreaBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             safeAreaBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             safeAreaBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -177,6 +207,12 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
             addTaskButton.centerYAnchor.constraint(equalTo: footerView.centerYAnchor),
             addTaskButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func toggleLoadingPlaceholder(isLoading: Bool) {
+        tableView.isHidden = isLoading
+        footerView.isHidden = isLoading
+        loadingPlaceholderView.isHidden = !isLoading
     }
     
     private func searchTodos(byTitle title: String) {
@@ -291,6 +327,6 @@ extension ListViewControllerImpl: UISearchResultsUpdating, UISearchControllerDel
     }
 
     func didDismissSearchController(_ searchController: UISearchController) {
-        searchTodos(byTitle: "") // Загружаем все данные
+        searchTodos(byTitle: "")
     }
 }
