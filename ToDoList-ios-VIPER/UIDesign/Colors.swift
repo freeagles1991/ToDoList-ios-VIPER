@@ -32,6 +32,8 @@ extension UIColor {
         )
     }
     
+    static let yaGray = UIColor(hexString: "#272729")
+    
     static let dynamicGray = UIColor { traitCollection in
         return traitCollection.userInterfaceStyle == .dark ? UIColor.lightText: UIColor.darkText
     }
@@ -44,6 +46,11 @@ extension UIColor {
         return traitCollection.userInterfaceStyle == .dark ? UIColor.black: UIColor.white
     }
     
-    static let yaGray = UIColor(hexString: "#272729")
+    static let dynamicYellow = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .dark ? UIColor.systemYellow: UIColor.systemOrange
+    }
     
+    static let dynamicLightGray = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .dark ? UIColor.yaGray : UIColor.systemGray5
+    }
 }

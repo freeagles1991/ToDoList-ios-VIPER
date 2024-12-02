@@ -48,14 +48,14 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     
     private lazy var footerView: UIView = {
         let footerView = UIView()
-        footerView.backgroundColor = .yaGray
+        footerView.backgroundColor = .dynamicLightGray
         footerView.translatesAutoresizingMaskIntoConstraints = false
         return footerView
     }()
     
     private lazy var safeAreaBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .yaGray
+        view.backgroundColor = .dynamicLightGray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -72,7 +72,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     private lazy var addTaskButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        button.tintColor = .systemYellow
+        button.tintColor = .dynamicYellow
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addNewTaskTapped), for: .touchUpInside)
         return button
@@ -133,7 +133,7 @@ final class ListViewControllerImpl: UIViewController, ListViewController {
     private func setupCustomBackButton() {
         let backButton = UIBarButtonItem()
         backButton.title = "Назад"
-        backButton.tintColor = .systemYellow
+        backButton.tintColor = .dynamicYellow
         navigationItem.backBarButtonItem = backButton
     }
     

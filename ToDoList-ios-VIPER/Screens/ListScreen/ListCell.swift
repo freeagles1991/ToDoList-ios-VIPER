@@ -26,7 +26,7 @@ final class ListCell: UITableViewCell {
         button.setImage(normalImage, for: .normal)
         button.setImage(selectedImage, for: .selected)
         
-        button.tintColor = .white
+        button.tintColor = .dynamicBlack
         button.backgroundColor = .clear
         
         button.addTarget(self, action: #selector(checkmarkTapped), for: .touchUpInside)
@@ -37,8 +37,6 @@ final class ListCell: UITableViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        //label.font = UIFont.regular16
-        //label.textColor = .dynamicBlack
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -60,14 +58,6 @@ final class ListCell: UITableViewCell {
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-
-    private lazy var contentStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel, dateLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 4
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
     }()
 
     // MARK: - Initializers
@@ -100,9 +90,8 @@ final class ListCell: UITableViewCell {
     }
     
     private func updateButtonState() {
-        checkmarkButton.tintColor = checkmarkButton.isSelected ? .systemYellow : .white
+        checkmarkButton.tintColor = checkmarkButton.isSelected ? .dynamicYellow : .dynamicBlack
     }
-    
 
     private func updateTextFontStyle() {
         descriptionLabel.textColor = checkmarkButton.isSelected ? .dynamicGray : .dynamicBlack
@@ -134,23 +123,32 @@ final class ListCell: UITableViewCell {
         checkmarkButton.isSelected = todo.completed
         updateCellState()
     }
-    
 
     // MARK: - Private Methods
     private func setupView() {
         contentView.addSubview(checkmarkButton)
-        contentView.addSubview(contentStackView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(dateLabel)
 
         NSLayoutConstraint.activate([
-            checkmarkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            checkmarkButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            checkmarkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            checkmarkButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             checkmarkButton.widthAnchor.constraint(equalToConstant: 24),
             checkmarkButton.heightAnchor.constraint(equalToConstant: 24),
 
-            contentStackView.leadingAnchor.constraint(equalTo: checkmarkButton.trailingAnchor, constant: 8),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            titleLabel.leadingAnchor.constraint(equalTo: checkmarkButton.trailingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
+
+            dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 6),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
 }
