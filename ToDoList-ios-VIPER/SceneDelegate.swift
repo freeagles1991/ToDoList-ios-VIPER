@@ -9,6 +9,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var dataLoader: DataLoader?
     
     func scene(
         _ scene: UIScene,
@@ -16,10 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
+        
         let todoStore = TodoStore()
         let networkClient = NetworkClient()
-        let dataLoader = DataLoader(networkClient: networkClient, todoStore: todoStore)
+        dataLoader = DataLoader(networkClient: networkClient, todoStore: todoStore)
 
         guard let listViewController = ListConfigurator.build(todoStore: todoStore) as? ListViewController else { return }
         let navigationController = UINavigationController(rootViewController: listViewController)
@@ -28,13 +29,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
-
+        
         let isFirstLaunch = UserDefaults.standard.bool(forKey: "isFirstLaunch")
 
         if !isFirstLaunch {
             print("First launch detected. Loading data from network...")
             DispatchQueue.global(qos: .background).async {
-                dataLoader.loadDataFromNetwork {
+                self.dataLoader?.loadDataFromNetwork {
                     DispatchQueue.main.async {
                         listViewController.fetchTodos()
                         UserDefaults.standard.set(true, forKey: "isFirstLaunch")

@@ -41,7 +41,7 @@ final class DataLoader {
 
                 for (index, todo) in todos.enumerated() {
                     dispatchGroup.enter()
-                    if !self.todoStore.contains(todo) { // Проверяем наличие задачи
+                    if !self.todoStore.contains(todo) {
                         self.todoStore.addTodo(todo) {
                             print("Todo added to store: \(index + 1)/\(todos.count) - \(todo.title)")
                             dispatchGroup.leave()
