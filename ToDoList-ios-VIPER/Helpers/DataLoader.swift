@@ -40,15 +40,17 @@ final class DataLoader {
                 let dispatchGroup = DispatchGroup()
 
                 for (index, todo) in todos.enumerated() {
-                    dispatchGroup.enter()
-                    if !self.todoStore.contains(todo) {
-                        self.todoStore.addTodo(todo) {
-                            print("Todo added to store: \(index + 1)/\(todos.count) - \(todo.title)")
+                    DispatchQueue.main.async {
+                        dispatchGroup.enter()
+                        if !self.todoStore.contains(todo) {
+                            self.todoStore.addTodo(todo) {
+                                print("Todo added to store: \(index + 1)/\(todos.count) - \(todo.title)")
+                                dispatchGroup.leave()
+                            }
+                        } else {
+                            print("Todo already exists: \(todo.title)")
                             dispatchGroup.leave()
                         }
-                    } else {
-                        print("Todo already exists: \(todo.title)")
-                        dispatchGroup.leave()
                     }
                 }
 

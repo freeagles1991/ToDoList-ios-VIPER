@@ -47,12 +47,15 @@ final class ListInteractorImpl: ListInteractor {
         }
         
         print("Searching todos with title: \(title)")
-        todoStore.searchTodos(byTitle: title) {
-            DispatchQueue.main.async {
-                if self.todoStore.todos.isEmpty {
-                    print("No results found for search query: \(title)")
+        
+        DispatchQueue.main.async {
+            self.todoStore.searchTodos(byTitle: title) {
+                DispatchQueue.main.async {
+                    if self.todoStore.todos.isEmpty {
+                        print("No results found for search query: \(title)")
+                    }
+                    completion()
                 }
-                completion()
             }
         }
     }

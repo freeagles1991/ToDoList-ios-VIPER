@@ -19,6 +19,7 @@ class TodoStore: NSObject {
     }
     var onDataUpdate: (() -> Void)?
     
+    @MainActor
     private var appDelegate: AppDelegate {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("UIApplication.shared.delegate is not of type AppDelegate")
@@ -26,6 +27,7 @@ class TodoStore: NSObject {
         return delegate
     }
     
+    @MainActor
     private var context: NSManagedObjectContext {
         appDelegate.persistentContainer.viewContext
     }
@@ -56,27 +58,32 @@ class TodoStore: NSObject {
                 return
             }
             
-            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
             
-            do {
-                let fetchedObjects = try self.context.fetch(fetchRequest)
-                self.todos = fetchedObjects.compactMap { $0.toTodo() }
+            DispatchQueue.main.async {
+                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
                 
-                DispatchQueue.main.async {
-                    print("Todos fetched successfully, count: \(self.todos.count)")
-                    completion?()
-                }
-            } catch {
-                print("Error: Failed to fetch Todos: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion?()
+                do {
+                    let fetchedObjects = try self.context.fetch(fetchRequest)
+                    self.todos = fetchedObjects.compactMap { $0.toTodo() }
+                    
+                    DispatchQueue.main.async {
+                        print("Todos fetched successfully, count: \(self.todos.count)")
+                        completion?()
+                    }
+                } catch {
+                    print("Error: Failed to fetch Todos: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             }
         }
     }
     
-    //MARK: Содержит ли задачу 
+    //MARK: Содержит ли задачу
+    
+    @MainActor
     func contains(_ todo: Todo) -> Bool {
         let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
@@ -91,26 +98,30 @@ class TodoStore: NSObject {
     }
     
     //MARK: Поиск задачи
+    @MainActor
     public func searchTodos(byTitle title: String, completion: @escaping () -> Void) {
         backgroundQueue.async { [weak self] in
             guard let self = self else { return }
             
-            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "title BEGINSWITH[cd] %@", title)
-            
-            do {
-                let results = try self.context.fetch(fetchRequest)
-                self.todos = results.compactMap { $0.toTodo() }
+            DispatchQueue.main.async {
                 
-                DispatchQueue.main.async {
-                    completion()
-                }
-            } catch {
-                print("Failed to search Todos by title: \(error)")
+                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "title BEGINSWITH[cd] %@", title)
                 
-                DispatchQueue.main.async {
-                    self.todos = []
-                    completion()
+                do {
+                    let results = try self.context.fetch(fetchRequest)
+                    self.todos = results.compactMap { $0.toTodo() }
+                    
+                    DispatchQueue.main.async {
+                        completion()
+                    }
+                } catch {
+                    print("Failed to search Todos by title: \(error)")
+                    
+                    DispatchQueue.main.async {
+                        self.todos = []
+                        completion()
+                    }
                 }
             }
         }
@@ -119,19 +130,21 @@ class TodoStore: NSObject {
     //MARK: Создаем задачу
     func addTodo(_ todo: Todo, completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
-            guard let self = self else { return }
-            let _ = todo.toEntity(context: self.context)
-            
-            do {
-                try self.context.save()
-                DispatchQueue.main.async {
-                    self.todos.append(todo)
-                    completion?()
-                }
-            } catch {
-                print("Failed to save Todo: \(error)")
-                DispatchQueue.main.async {
-                    completion?()
+            DispatchQueue.main.async {
+                
+                guard let self = self else { return }
+                
+                do {
+                    try self.context.save()
+                    DispatchQueue.main.async {
+                        self.todos.append(todo)
+                        completion?()
+                    }
+                } catch {
+                    print("Failed to save Todo: \(error)")
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             }
         }
@@ -142,37 +155,40 @@ class TodoStore: NSObject {
         backgroundQueue.async { [weak self] in
             guard let self = self else { return }
             
-            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
-            
-            do {
-                let results = try self.context.fetch(fetchRequest)
-                if let todoEntity = results.first {
-                    todoEntity.title = todo.title
-                    todoEntity.text = todo.text
-                    todoEntity.completed = todo.completed
-                    todoEntity.date = todo.date.toString()
-                    
-                    try self.context.save()
-                    
-                    DispatchQueue.main.async {
-                        if let index = self.todos.firstIndex(where: { $0.id == todo.id }) {
-                            self.todos[index] = todo
-                        } else {
-                            print("Todo not found in todos array for update")
+            DispatchQueue.main.async {
+                
+                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
+                
+                do {
+                    let results = try self.context.fetch(fetchRequest)
+                    if let todoEntity = results.first {
+                        todoEntity.title = todo.title
+                        todoEntity.text = todo.text
+                        todoEntity.completed = todo.completed
+                        todoEntity.date = todo.date.toString()
+                        
+                        try self.context.save()
+                        
+                        DispatchQueue.main.async {
+                            if let index = self.todos.firstIndex(where: { $0.id == todo.id }) {
+                                self.todos[index] = todo
+                            } else {
+                                print("Todo not found in todos array for update")
+                            }
+                            completion?()
                         }
-                        completion?()
+                    } else {
+                        print("Todo not found in Core Data for update")
+                        DispatchQueue.main.async {
+                            completion?()
+                        }
                     }
-                } else {
-                    print("Todo not found in Core Data for update")
+                } catch {
+                    print("Failed to update Todo in Core Data: \(error)")
                     DispatchQueue.main.async {
                         completion?()
                     }
-                }
-            } catch {
-                print("Failed to update Todo in Core Data: \(error)")
-                DispatchQueue.main.async {
-                    completion?()
                 }
             }
         }
@@ -193,30 +209,33 @@ class TodoStore: NSObject {
             
             let todo = self.todos[indexPath.row]
             print("Removing Todo with ID: \(todo.id)")
-
-            let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
-
-            do {
-                let results = try self.context.fetch(fetchRequest)
-                if let todoEntity = results.first {
-                    self.context.delete(todoEntity)
-                    try self.context.save()
-                    
+            
+            DispatchQueue.main.async {
+                
+                let fetchRequest: NSFetchRequest<TodoEntity> = TodoEntity.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", todo.id as CVarArg)
+                
+                do {
+                    let results = try self.context.fetch(fetchRequest)
+                    if let todoEntity = results.first {
+                        self.context.delete(todoEntity)
+                        try self.context.save()
+                        
+                        DispatchQueue.main.async {
+                            self.todos.remove(at: indexPath.row)
+                            completion?()
+                        }
+                    } else {
+                        print("Error: TodoEntity not found for ID: \(todo.id)")
+                        DispatchQueue.main.async {
+                            completion?()
+                        }
+                    }
+                } catch {
+                    print("Error: Failed to delete Todo: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                        self.todos.remove(at: indexPath.row)
                         completion?()
                     }
-                } else {
-                    print("Error: TodoEntity not found for ID: \(todo.id)")
-                    DispatchQueue.main.async {
-                        completion?()
-                    }
-                }
-            } catch {
-                print("Error: Failed to delete Todo: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion?()
                 }
             }
         }
@@ -230,22 +249,25 @@ class TodoStore: NSObject {
                 return
             }
             
-            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "TodoEntity")
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-            
-            do {
-                try self.context.execute(deleteRequest)
-                try self.context.save()
+            DispatchQueue.main.async {
                 
-                DispatchQueue.main.async {
-                    self.todos.removeAll()
-                    print("All data removed successfully")
-                    completion?()
-                }
-            } catch {
-                print("Error: Failed to delete all data: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion?()
+                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "TodoEntity")
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                
+                do {
+                    try self.context.execute(deleteRequest)
+                    try self.context.save()
+                    
+                    DispatchQueue.main.async {
+                        self.todos.removeAll()
+                        print("All data removed successfully")
+                        completion?()
+                    }
+                } catch {
+                    print("Error: Failed to delete all data: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             }
         }
@@ -254,16 +276,19 @@ class TodoStore: NSObject {
     //MARK: Сохраняем контекст
     private func saveChanges(completion: (() -> Void)? = nil) {
         backgroundQueue.async { [weak self] in
-            guard let self = self else { return }
-            do {
-                try self.context.save()
-                DispatchQueue.main.async {
-                    completion?()
-                }
-            } catch {
-                print("Failed to save changes: \(error)")
-                DispatchQueue.main.async {
-                    completion?()
+            DispatchQueue.main.async {
+                
+                guard let self = self else { return }
+                do {
+                    try self.context.save()
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
+                } catch {
+                    print("Failed to save changes: \(error)")
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             }
         }
